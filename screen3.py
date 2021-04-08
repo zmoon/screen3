@@ -183,7 +183,7 @@ def read_screen(
     fp, 
     *, 
     t_run=None,
-    run_inputs={},
+    run_inputs=None,
 ):
     """Read and extract data from a SCREEN3 run (a `SCREEN.OUT` file).
     
@@ -195,7 +195,7 @@ def read_screen(
     t_run : datetime.datetime
         Time of the run.
         If the output file (`SCREEN.OUT`) is older than this, the run did not complete successfully.
-    run_inputs : dict
+    run_inputs : dict, optional
         `run_screen` passes this so that we can store what the inputs to the Python function were for this run,
         though `SCREEN.OUT` should have much of the same info.
 
@@ -209,60 +209,50 @@ def read_screen(
                 values: unit strings (for use in plots)
             SCREEN_OUT : str
     """
-    # find where table starts (in case it isn't always in the same place)
-    # with open(fp, 'r') as f:
-    #     for i, line in enumerate(f):
-    #         if line.split()[:2] == ['DIST', 'CONC']:
-    #             iheader = i
-    #         elif line.strip()[:5] == 'DWASH':
-    #             iDWASH = i
-    #             break
-    # TODO: if they are not found we get UnboundLocalError in this fn
-    # should do this a better way so that we can report that SCREEN failed if they are not found.
+    if run_inputs is None:
+        run_inputs = {}
 
-    # first check that the file has indeed been modified
+    # If we have `t_run`, first check that the file has indeed been modified
     p = Path(fp)
     t_out_modified = datetime.datetime.fromtimestamp(p.stat().st_mtime)
-    # print(t_run)
-    # print(t_out_modified)
     if t_run is not None and p.is_file():  # i.e., t_run has been specified
-        # print('checking times')
-        if t_out_modified < t_run:  
-        # if abs(t_out_modified - t_run) > datetime.timedelta(seconds=1):  # for Kayla, who on her MacBook was having precision erorr. the t_out_modified doesn't have the fraction seconds, so it thought it was earlier...
-            raise ValueError(f"SCREEN.OUT is older than time of the run."
+        if (t_run - t_out_modified) > datetime.timedelta(seconds=1):  
+            raise ValueError(
+                "`SCREEN.OUT` is older than time of the run."
                 " This probably means that SCREEN failed to run because it didn't like the value of one or more inputs."
                 " Or some other reason.")
 
+    # Read lines
     with open(fp, 'r') as f:
         lines_raw = f.readlines()
-
     lines_stripped = [line.strip() for line in lines_raw]
 
     # TODO: could also read other info from the file like the run settings at the top
 
     iheader = [i for i, s in enumerate(lines_stripped) if s.split()[:2] == ['DIST', 'CONC']]
-
     if not iheader:
-        raise ValueError(f"Data table not found in output."
-            " This probably means that SCREEN failed to complete the run because it didn't like the value of one or more inputs."
-            " Or some other reason.")
+        raise ValueError(
+            "Data table not found in output. "
+            "This probably means that SCREEN failed to complete the run because "
+            "it didn't like the value of one or more inputs. "
+            "Or some other reason."
+        )
 
     if len(iheader) > 1:
         print(f"Multiple sets of data found. Only loading the first one.")
     iheader = iheader[0]
 
-    iblankrel = lines_stripped[iheader:].index("")  # find first blank after iheader
+    # Find first blank after iheader
+    iblankrel = lines_stripped[iheader:].index("")
     iblank = iheader + iblankrel
 
-
-    # could (technically) read these from file
+    # Could (technically) read these from file instead
     col_names = SCREEN_OUT_COL_NAMES
     col_units = SCREEN_OUT_COL_UNITS
-    
-    n_X = iblank - iheader - 2
 
-    # at some point `pd.read_table` was deprecated but seems like that was undone?
-    # load into pandas
+    # Load into pandas
+    # Note: at some point `pd.read_table` was deprecated but seems like that was undone?
+    n_X = iblank - iheader - 2
     df = pd.read_table(fp, 
         sep=None, skipinitialspace=True, engine='python',
         keep_default_na=False,
@@ -278,14 +268,14 @@ def read_screen(
     except FileNotFoundError:
         s_screen_dat = None
 
-    #> assign attrs to df
-    #  Pandas only added attrs recently. they may not have
-    # df.attrs.update({
-    #     'SCREEN_DAT': s_screen_dat,
-    #     'SCREEN_OUT': ''.join(lines_raw),
-    #     'units': units_dict,
-    #     'run_inputs': run_inputs
-    # })
+    # Assign attrs to df (pandas 1.0+)
+    if hasattr(df, "attrs"):
+        df.attrs.update({
+            'SCREEN_DAT': s_screen_dat,
+            'SCREEN_OUT': ''.join(lines_raw),
+            'units': units_dict,
+            'run_inputs': run_inputs
+        })
     
     return df
 
@@ -374,36 +364,39 @@ def run_screen(
     Upon running, it produces an output file in its directory called 'SCREEN.OUT'. 
 
     """
-    inputs = locals()
-    # print(inputs)
+    inputs = locals()  # collect inputs for saving in the df
 
-    # TODO: should check wind speeds
+    # TODO: should validate wind speed?
 
+    # Confirm exe path set
     if _SCREEN_EXE_PATH is None or not isinstance(_SCREEN_EXE_PATH, Path):
         raise ValueError("Before running the location of the executable must be set using `screen3.set_screen_exe_path`.")
 
+    # Check exe is file
     if not _SCREEN_EXE_PATH.is_file():
-        raise ValueError("{fp!r} does not exist or is not a file."
-        " Use `screen3.set_screen_exe_path` to set it.")
+        raise ValueError(
+            "{fp!r} does not exist or is not a file."
+            " Use `screen3.set_screen_exe_path` to set it."
+        )
 
-    H_defaults = (30.0, 10.0, 20.0)  # remember to change this if change the default arguments above!?
+    # Check for H changes without downwad
+    H_defaults = (30.0, 10.0, 20.0)  # keep in sync with fn defaults
     if any(x0 != x for x0, x in zip(H_defaults, [HB, HL, HW])) and DOWNWASH_YN == 'N':
-        print("* Note: You have modified a building parameter, but downwash is not enabled.")
+        print("Note: You have modified a building parameter, but downwash is not enabled.")
 
-    # cwd = os.getcwd()
-    cwd = Path.cwd()
-
+    # Check x positions
     X = np.asarray(X)
     if X.size > 50:
         raise ValueError('SCREEN3 does not support inputting more than 50 distance values')
 
     # ------------------------------------------------------
-    # for now the user cannot set these
-    # though they are required inputs to the model
+    # Other parameters
+    # For now the user cannot set these
+    # although they are required inputs to the model
     
     I_SOURCE_TYPE = 'P'  # point source
 
-    # complex terrain also currently not used
+    # Complex terrain also currently not used
     # (assumed flat)
     TERRAIN_1_YN = 'N'  # complex terrain screen above stack height
     TERRAIN_2_YN = 'N'  # simple terrain above base
@@ -411,17 +404,17 @@ def run_screen(
     # ^ not needed if not using the terrain settings
     # at least for simple terrain, seems to just run the x positions for different heights 
 
-    # currently user input of distances is required
+    # Currently user input of distances is required
     # i.e., automated option not used
     AUTOMATED_DIST_YN = 'N'
     DISCRETE_DIST_YN = 'Y'
 
-    # final questions
+    # Final questions
     FUMIG_YN = 'N'
     PRINT_YN = 'N'
 
     # ------------------------------------------------------
-    # create the input file
+    # Create the input file
 
     def s_METEO():
         if IMETEO == 1:  # A range (depending on U/R, type of source, etc.) of WS and STABs are examined to find maximum impact
@@ -466,69 +459,42 @@ def run_screen(
 {s_X()}
 {FUMIG_YN}
 {PRINT_YN}
-""".strip()
+    """.strip() + "\n"
+    # ^ need newline at end or Fortran complains when passing text on the cl
 
-    ifn = 'screen3_input.txt'  # input filename
-    ifp = cwd / ifn
-
-    # TODO: optionally use Python to pass the text stream from memory instead of actually creating the file?
-    with open(ifn, 'w') as f: 
-        f.write(dat_text)
+    # TODO: optionally write the input text file to disk in cwd
+    # ifn = 'screen3_input.txt'  # input filename
+    # ifp = cwd / ifn
+    # with open(ifn, 'w') as f: 
+    #     f.write(dat_text)
 
     # ------------------------------------------------------
-    # run the SCREEN executable
+    # Run the SCREEN executable
 
     t_utc_run = datetime.datetime.now()
 
-    # if not os.path.isfile(f'{src_dir}/SCREEN3.exe'):
-    #     raise ValueError(f'SCREEN3.exe not found in {src_dir}. Please set input param `src_dir` to the proper location.')
-
-    # get an absolute path to the exe
-    # the system call will not work on Linux/Mac with a relative path that doesn't start with `./` (pathlib doesn't give that prefix)
-    # but it does with if the full path is provided
     exe = str(_SCREEN_EXE_PATH.absolute())
+    cwd = Path.cwd()
+    src_dir = _SCREEN_EXE_PATH.parent
 
-    # src_dir = str(_SCREEN_EXE_PATH.parents[0])
-    src_dir = _SCREEN_EXE_PATH.parents[0]
-
-    # move to the src dir because SCREEN creates its files in the place where it is run
-    # and we want them to be there
+    # Move to src location so that the output file will be saved there
     os.chdir(src_dir)
 
-    # prepare our command for the possibility of absolute paths with spaces in them!
-    if platform.system() == 'Windows':
-        # cmd = f'""{exe}" < "{ifp}""'  # must enclose whole thing with "" if running like `cmd /C "command"` (or with `os.system()` !)
-        cmd = f'"{exe}" < "{ifp}"'  # single quote enclosure won't work for cmd.exe
-    elif platform.system() in ('Linux', 'Darwin'):
-        cmd = f"'{exe}' < '{ifp}'"
-    else:
-        raise NotImplementedError
-
-    # print(cmd)
-
-    # os.system('SCREEN3.exe < screen3_input.txt')  # will work on Windows (but not Mac/Linux), if `src_dir` and `cwd` are the same!
-    # os.system(cmd)  # for Windows, this requires the version above with the whole command surrounded in double quotes
-
-    subprocess.run(  # returns a CompletedProcess
-        # args=[exe, '<', f'{ifp}'],   # in Linux args after the first are passed to the shell instead of exe apparently if list is used with `shell=True`
-        # args=f"{exe} < {ifp}",
-        args=cmd,
-        shell=True,  # * note: need to use list if not `shell=True`
+    # Invoke executable
+    subprocess.run(
+        args=[exe],
+        input=dat_text,
+        text=True,
+        check=True,
+        shell=True,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.STDOUT,
     )
-    # on Win, using `os.system` popped up CMD window, 
-    # but with `shell=True` in `subprocess.run` nothing showed in Python interpreter or elsewhere I could see
-    # on Linux, stdout was showing until I added the redirection
 
-    # return to working dir
+    # Return to cwd
     os.chdir(cwd)
 
-    # ------------------------------------------------------
-    # read and parse the output
-
-    # df, _ = read_screen(f'{src_dir}/SCREEN.OUT', t_run=t_utc_run)
-    # df = read_screen(f'{src_dir}/SCREEN.OUT', t_run=t_utc_run, run_inputs=inputs)
+    # Read and parse the output
     df = read_screen(src_dir/'SCREEN.OUT', t_run=t_utc_run, run_inputs=inputs)
 
     return df
