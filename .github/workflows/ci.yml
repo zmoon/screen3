@@ -30,8 +30,8 @@ jobs:
         run: |
           python -c "import screen3; screen3.download()"
 
-      - name: Build model (non-Windows)
-        if: contains(matrix.os, 'ubuntu') || contains(matrix.os, 'macos')
+      - name: Build model (Ubuntu)
+        if: contains(matrix.os, 'ubuntu')
         run: |
           set -xe
           cd ./src
