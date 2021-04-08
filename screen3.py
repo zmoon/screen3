@@ -484,7 +484,7 @@ def run_screen(
     subprocess.run(
         args=[exe],
         input=dat_text,
-        text=True,
+        universal_newlines=True,  # equivalent to `text=True`, but that was added in 3.7
         check=True,
         shell=True,
         stdout=subprocess.DEVNULL,
