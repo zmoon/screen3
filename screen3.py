@@ -102,37 +102,6 @@ def set_screen_exe_path(fp):
         raise ValueError(f"The path {fp!r} does not exist or is not a file.")
 
 
-# TODO: write this fn that will try the example as a check 
-#       on module load?
-# def _try_exe_example():
-#         try:
-#         completed = subprocess.run(
-#             # f'SCREEN3.exe < {cwd}/{ifn}',
-#             ['SCREEN3.exe', '<', f'{ifp}'],
-#             # shell=True,
-#             shell=False,
-#             stdout=subprocess.PIPE,
-#             stderr=subprocess.PIPE,
-#             # check=True,
-#         )
-#         # print(completed)
-#         run_complete = True
-
-#     # except subprocess.CalledProcessError as err:  # for use with shell=True, check=True
-#     #     print(err)
-
-#     except OSError:
-#         print(f"The executable {_SCREEN_EXE_PATH} is not compatible with your platform:"
-#             f"\n  {platform.platform()} of general type {platform.system()}")
-#     except:
-#         import sys
-#         err = sys.exc_info()[0]
-#         print("Unexpected error:")
-#         print(err)
-#     else:
-#         print("wat")
-
-
 def _try_to_set_screen_exe_path():
     search_in = Path.cwd()
     set_msg = "Use `screen3.set_screen_exe_path` to set the path of the SCREEN3 executable to use."

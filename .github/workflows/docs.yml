@@ -6,7 +6,7 @@ on:
       - '**.py'
       - '.github/workflows/docs.yml'
     branches:
-      - master
+      - main
 
 jobs:
   docs:
