@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr  1 08:56:19 2020
-
 Examine the response to meteorological conditions
 * stability class
 * mean wind speed
@@ -9,7 +7,6 @@ by plotting the conc lines.
 
 @author: zmoon
 """
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -18,15 +15,14 @@ import screen3
 plt.close('all')
 
 
-#%% define conditions
-#   https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#The_Pasquill_atmospheric_stability_classes
+# %% Define conditions
+# https://en.wikipedia.org/wiki/Outline_of_air_pollution_dispersion#The_Pasquill_atmospheric_stability_classes
 
 
 # SCREEN specifies maxima: UINMAX/3.,5.,10.,20.,5.,4./ (L2874)
 # that we must obey (or the run will not complete)
-#
-# description, allowed WSs, ISTAB for SCREEN3
 stab_classes = {
+    # description: (allowed WS range, ISTAB for SCREEN3)
     'A': ('very unstable', (0, 3), 1),  # 
     'B': ('unstable', (0, 5), 2), 
     'C': ('slightly unstable', (2, 10), 3),  # max WS should be None
@@ -36,23 +32,21 @@ stab_classes = {
 }
 
 
-
-#%% loop through conditions and run SCREEN
+#%% Loop through conditions and run SCREEN
 
 X = np.linspace(10.0, 1000.0, 50)
 IMETEO = 3  # one ISTAB, one WS 
 n_ws_per_stab = 10
 wsmin = 1.0  # SCREEN won't run for values below this
 
-
-# get ready to store stuff
+# Get ready to store stuff
 runs = []
 
 for stab, d in stab_classes.items():
     ws_range = d[1]
     ISTAB = d[2]
     
-    # create list of ws values to run for
+    # Create list of WS values to run for
     ws_a = max(float(ws_range[0]), wsmin)
     ws_b = float(ws_range[1]) if ws_range[1] is not None else 20.0
 
@@ -63,11 +57,11 @@ for stab, d in stab_classes.items():
         df = screen3.run_screen(X=X, IMETEO=3, ISTAB=ISTAB, WS=ws_val)
         dfs.append(df)
         
-    # save our stuff
+    # Save our stuff
     runs.append((stab, dfs, ws_vals))
     
 
-#%% plot on one figure
+# %% Plot on one figure
 
 fig, axs = plt.subplots(2, 3, figsize=(12, 7), sharex=True)
 
@@ -80,5 +74,4 @@ for (stab, dfs, wss), ax in zip(runs, axs.flat):
     ax.set_title(f"{stab} ({stab_classes[stab][0]})")
 
 
-fig.savefig('fig_meteo-lines.pdf')
-
+# fig.savefig('fig_meteo-lines.pdf')

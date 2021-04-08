@@ -7,11 +7,10 @@ You can use `help({fn})` to see the help for each function, i.e., try running th
     help(screen3.run_screen)
     help(screen3.plot_conc)
     help(screen3.read_screen)
-    help(screen3.set_screen_exe_loc)
+    help(screen3.set_screen_exe_path)
 
 @author: zmoon
 """
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -20,25 +19,27 @@ import screen3
 plt.close('all')
 
 
-#%% set exe location
-#   this may be necessary
-#   e.g., if you have more than one executable in or below your current directory that matches the SCREEN*.exe pattern 
-#   if SCREEN3.exe is in the same directory as this script, you shouldn't have to set it
+# %% Set exe location
+# This may be necessary, e.g.,
+# if you have more than one executable in or below your current directory that matches the SCREEN*.exe pattern.
+# If SCREEN3.exe is in the same directory as this script, you shouldn't have to set it.
 
 # screen3.set_screen_exe_loc('path/to/an/executable.exe')
 
 
-#%% run with default settings
+# %% Run with default settings
 
 df = screen3.run_screen()
 
 fig = screen3.plot_conc(df)
+
 plt.title("A title")  # we can add a title to the figure after it has been created
 plt.tight_layout()
-fig.savefig('fig_our-default-settings.pdf')  # modify the save name here if you want
+
+# fig.savefig('fig_our-default-settings.pdf')  # modify the save name here if you want
 
 
-#%% demonstrate how to modify input parameters
+# %% Demonstrate how to modify input parameters
 
 df = screen3.run_screen(
     RUN_NAME='the best run.',
@@ -55,25 +56,20 @@ df = screen3.run_screen(
     U_or_R='R',
     DOWNWASH_YN='N',
     HB=40.0
-    )
+)
 
 fig = screen3.plot_conc(df)
 
-fig.savefig('fig_sample-modified-settings.pdf')
+# fig.savefig('fig_sample-modified-settings.pdf')
 
 
-#%% demonstrate loading saved (in the SCREEN3 output format) past runs
-#   the two examples
+# %% Demonstrate loading saved (in the SCREEN3 output format) past runs
 
-# we pass the fn the paths of the two example files that are included when you download SCREEN3 from EPA
-# you may have to modify them
-# here we assume that we have them in the current directory
 df1 = screen3.load_example('EXAMPLE.OUT')
 df2 = screen3.load_example('EXAMPNR.OUT')
 
 fig1 = screen3.plot_conc(df1)
 fig2 = screen3.plot_conc(df2)
 
-fig1.savefig('fig_example.pdf')
-fig2.savefig('fig_exampnr.pdf')
-
+# fig1.savefig('fig_example.pdf')
+# fig2.savefig('fig_exampnr.pdf')
