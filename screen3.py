@@ -22,6 +22,7 @@ from pathlib import Path
 import platform
 import subprocess
 import sys
+import warnings
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -42,6 +43,10 @@ __all__ = (
 # Note: `sys.version_info` became a named tuple in 3.1
 if not (sys.version_info.major >= 3 and sys.version_info.minor >= 6):
     raise Exception(f"Python version must be 3.6+.\nYours is {sys.version}")
+
+
+_THIS_DIR = Path(__file__).parent
+_SCREEN_EXE_PATH = None
 
 
 # TODO: on Jose's Mac it set to use the Win and failed to to multi-run stuff, but the checks did not activate! 
@@ -69,7 +74,7 @@ def download(*, extract_to="src"):
 
     url = "https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip"
 
-    to = Path(__file__).parent / extract_to
+    to = _THIS_DIR / extract_to
     to.mkdir(exist_ok=True)
     
     r = requests.get(url, verify=False)  # TODO: get it working without having to disable certificate verification
@@ -77,9 +82,6 @@ def download(*, extract_to="src"):
         for info in z.infolist():
             with z.open(info) as zf, open(to / info.filename, "wb") as f:
                 f.write(zf.read())
-
-
-_SCREEN_EXE_PATH = None
 
 
 def set_screen_exe_path(fp):
@@ -95,7 +97,7 @@ def set_screen_exe_path(fp):
     p = Path(fp)
 
     if p.is_file():
-        _SCREEN_EXE_PATH = p
+        _SCREEN_EXE_PATH = p.absolute()
     else:
         raise ValueError(f"The path {fp!r} does not exist or is not a file.")
 
@@ -132,27 +134,40 @@ def set_screen_exe_path(fp):
 
 
 def _try_to_set_screen_exe_path():
-    set_msg = "use `screen3.set_screen_exe_path` to set location of the SCREEN3 executable to use."
-    if _SCREEN_EXE_PATH is None:
-        # first try standard loc
+    search_in = Path.cwd()
+    set_msg = "Use `screen3.set_screen_exe_path` to set the path of the SCREEN3 executable to use."
+    if _SCREEN_EXE_PATH is None:  # initial load of module
+        # First try the standard location
+        std_loc = _THIS_DIR / 'src/SCREEN3.exe'
         try:
-            set_screen_exe_path('./SCREEN3.exe')
+            set_screen_exe_path(std_loc)
         except ValueError:
-            print("the executable was not found in the expected location './'"
-                "\ni.e., './SCREEN3.exe' not found"
-                )
-            print("will now search for one")
-            # search for an exe
-            exe_paths = list(Path.cwd().rglob('SCREEN*.exe'))
+            warnings.warn(
+                f"the executable was not found in the expected location {std_loc.as_posix()}. "
+                "We will search for executables matching the pattern 'SCREEN*.exe'.",
+                stacklevel=2,
+            )
+            # Search for an exe
+            exe_paths = list(search_in.rglob('SCREEN*.exe'))
             if len(exe_paths) > 1:
-                print("multiple executables found:")
-                print('\n'.join([f"    {sp.relative_to(Path.cwd())}"  for sp in exe_paths]))
-                print(set_msg)
+                # Warn and don't set if multiple found
+                warnings.warn(
+                    f"multiple executables were found: "
+                    f"{', '.join(sp.relative_to(search_in).as_posix() for sp in exe_paths)}. " +
+                    set_msg
+                    ,
+                    stacklevel=2,
+                )
             elif len(exe_paths) == 1:
-                set_screen_exe_path(str(exe_paths[0]))
+                # Set if only one was found
+                set_screen_exe_path(exe_paths[0])
             else:
-                print("couldn't find any SCREEN exe files.")
-                print(set_msg)
+                # Warn if none found
+                warnings.warn(
+                    f"no 'SCREEN*.exe' could be found in {search_in.as_posix()}. " + set_msg,
+                    stacklevel=2,
+                )
+
 
 _try_to_set_screen_exe_path()
 
