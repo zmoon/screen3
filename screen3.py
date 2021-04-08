@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Python functions for using SCREEN3
+Python functions for using
+[SCREEN3](https://www.epa.gov/scram/air-quality-dispersion-modeling-screening-models#screen3).
 * wrapper to quickly create a run without needing to go through the prompt
 * load the output into Pandas
 * some plotting routines
 
-Code in here should generally not need to be modified for basic runs. 
+Most of the variables related to SCREEN3 are the same as the ones in the SCREEN3 input and output files,
+including that they are in uppercase.
 
-Python 3.6+ is required
+Code in here should generally not need to be modified for basic runs.
 
-@author: zmoon
+.. note::
+   Python 3.6+ is required
 """
 # TODO: type annotations for the main user-facing fns?
 
@@ -25,9 +28,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+__all__ = (
+    "run_screen",
+    "read_screen",
+    "plot_conc",
+    "set_screen_exe_path",
+    "SCREEN_OUT_COL_UNITS_DICT",
+)
 
-# check for Python 3.6+
-# `sys.version_info` became named tuple first in 3.1
+
+# Check for Python 3.6+
+# Note: `sys.version_info` became a named tuple in 3.1
 if not (sys.version_info.major >= 3 and sys.version_info.minor >= 6):
     raise Exception(f"Python version must be 3.6+.\nYours is {sys.version}")
 
@@ -39,15 +50,15 @@ if not (sys.version_info.major >= 3 and sys.version_info.minor >= 6):
 
 _SCREEN_EXE_PATH = None
 
-def set_screen_exe_loc(fp):
-    """Set module variable for path of the SCREEN3.exe.
-    
-    INPUT
-    -----
-    fp : str
-        path (absolute or relative) to the SCREEN3 executable
-        e.g., './screen3_Win/SCREEN3.exe'
 
+def set_screen_exe_path(fp):
+    """Manually configure the path of the `SCREEN3.exe` to use when invoking `run_screen`.
+    
+    Parameters
+    ----------
+    fp : str, pathlib.Path
+        File path (absolute or relative) to the SCREEN3 executable,
+        e.g., `'./screen3/SCREEN3.exe'`.
     """
     global _SCREEN_EXE_PATH
     p = Path(fp)
@@ -89,12 +100,12 @@ def set_screen_exe_loc(fp):
 #         print("wat")
 
 
-def _try_to_set_screen_exe_loc():
-    set_msg = "use `screen3.set_screen_exe_loc` to set location of the SCREEN3 executable to use."
+def _try_to_set_screen_exe_path():
+    set_msg = "use `screen3.set_screen_exe_path` to set location of the SCREEN3 executable to use."
     if _SCREEN_EXE_PATH is None:
         # first try standard loc
         try:
-            set_screen_exe_loc('./SCREEN3.exe')
+            set_screen_exe_path('./SCREEN3.exe')
         except ValueError:
             print("the executable was not found in the expected location './'"
                 "\ni.e., './SCREEN3.exe' not found"
@@ -107,42 +118,42 @@ def _try_to_set_screen_exe_loc():
                 print('\n'.join([f"    {sp.relative_to(Path.cwd())}"  for sp in exe_paths]))
                 print(set_msg)
             elif len(exe_paths) == 1:
-                set_screen_exe_loc(str(exe_paths[0]))
+                set_screen_exe_path(str(exe_paths[0]))
             else:
                 print("couldn't find any SCREEN exe files.")
                 print(set_msg)
 
-_try_to_set_screen_exe_loc()
+_try_to_set_screen_exe_path()
 
 
 # note that U10M becomes UHANE in non-regulatory mode
 SCREEN_OUT_COL_NAMES = 'DIST CONC STAB U10M USTK MIX_HT PLUME_HT SIGMA_Y SIGMA_Z DWASH'.split()
 SCREEN_OUT_COL_UNITS = ['m', 'μg/m$^3$', '', 'm/s', 'm/s', 'm', 'm', 'm', 'm', '']
 SCREEN_OUT_COL_UNITS_DICT = dict(zip(SCREEN_OUT_COL_NAMES, SCREEN_OUT_COL_UNITS))
-# ^ maybe _DIST_ instead of _COL_ ?
+"""Dict of units for the outputs, e.g., `'DIST': 'm'`."""
 
-def read_screen(fp, 
+
+def read_screen(
+    fp, 
     *, 
     t_run=None,
     run_inputs={},
 ):
-    """Read and extract data from a SCREEN3 run (a SCREEN.OUT file).
+    """Read and extract data from a SCREEN3 run (a `SCREEN.OUT` file).
     
-    INPUTS
-    ------
-    fp : str
-        path to the SCREEN.OUT file
-
-    INPUTS (optional)
-    ------
-    t_run : 
-        time of the run
-        if the output file (SCREEN.OUT) is older than this, the run did not complete correctly
+    Parameters
+    ----------
+    fp : str, pathlib.Path
+        File path to the `SCREEN.OUT` file,
+        e.g., `'./screen3/SCREEN.out'`.
+    t_run : datetime.datetime
+        Time of the run.
+        If the output file (`SCREEN.OUT`) is older than this, the run did not complete successfully.
     run_inputs : dict
-        the run script passes this so that we can store what the inputs to the Python function were for this run
-        though SCREEN.OUT should have much of the same info
+        `run_screen` passes this so that we can store what the inputs to the Python function were for this run,
+        though `SCREEN.OUT` should have much of the same info.
 
-    RETURNS
+    Returns
     -------
     df : pd.DataFrame
         of the data
@@ -256,54 +267,57 @@ def run_screen(
     HW=20.0,  # MAXIMUM HORIZ. BUILDING DIMENSION (M)
     #
 ):
-    """Create SCREEN3 input file, feed it to the executable, load the result.
+    """Create SCREEN3 input file, feed it to the executable, and load the result.
 
-    Inputs must be specified as keyword arguments, but can be entered in any order (non-positional).
+    .. note::
+       Inputs must be specified as keyword arguments, but can be entered in any order (non-positional).
 
-    INPUTS
-    ------
+    Parameters
+    ----------
     Q : float 
-        EMISSION RATE (G/S)
+        Emission rate (g/s).
     HS : float 
-        STACK HT (M)
+        Stack height (m).
     DS : float 
-        STACK INSIDE DIAMETER (M)
+        Stack inside diameter (m).
     VS : float 
-        STACK GAS EXIT VELOCITY (M/S)
+        Stack gas exit velocity (m/s).
     TS : float 
-        STACK GAS TEMPERATURE (K)
+        Stack gas temperature (K).
     TA : float 
-        AMBIENT AIR TEMPERATURE (K)
+        Ambient air temperature (K).
     ZR : float 
-        RECEPTOR HEIGHT ABOVE GROUND (FLAGPOLE RECEPTOR) (M)
+        Receptor height above ground (flagpole receptor) (M).
     X : array_like
-        array of downwind distances (m)
-    IMETEO : int {1, 2, 3}
-        1 - full (supplying stability class + WS for each grid point), 
-            or SCREEN runs for each STAB option??...
-        2 - single stability class, 
-        3 - stability class + WS
+        Array of downwind distances at which to compute the outputs (m).
+    IMETEO : int, {1, 2, 3}
+        1. Full (supplying stability class + WS for each grid point), 
+           or SCREEN runs for each STAB option??...
+        2. Single stability class
+        3. Stability class + WS
     ISTAB : int
-        1(=A) to 6(=F)
+        Stability class.
+        1 (= A) to 6 (= F).
     WS : float
-        mean wind speed at 10m (m/s)
+        Mean wind speed at 10 m (m/s).
+        .. warning::
+           The run will fail if you exceed the maximum that SCREEN3 allows!
     U_or_R : str {'U', 'R'}
-        urban (U) or rural (R)
+        Urban (U) or rural (R).
     DOWNWASH_YN : str {'Y', 'N'}
         whether to apply building downwash calculations
         the building dimension parameters do nothing if it is 'N'
     HB : float
-        BUILDING HEIGHT (M)
-    HL : float 
-        MINIMUM HORIZ. BUILDING DIMENSION (M)
-    HW : float 
-        MAXIMUM HORIZ. BUILDING DIMENSION (M)
+        Building height (m).
+    HL : float
+        Minimum horizontal building dimension (m).
+    HW : float
+        Maximum horizontal building dimension (m).
 
-    RETURNS
+    Returns
     -------
     df : pd.DataFrame
-        of the results
-        facilitated by function `read_screen`
+        Results dataset, read from the `SCREEN.out` by `read_screen`.
 
     NOTES
     -----
@@ -318,11 +332,11 @@ def run_screen(
     # TODO: should check wind speeds
 
     if _SCREEN_EXE_PATH is None or not isinstance(_SCREEN_EXE_PATH, Path):
-        raise ValueError("Before running the location of the executable must be set using `screen3.set_screen_exe_loc`.")
+        raise ValueError("Before running the location of the executable must be set using `screen3.set_screen_exe_path`.")
 
     if not _SCREEN_EXE_PATH.is_file():
         raise ValueError("{fp!r} does not exist or is not a file."
-        " Use `screen3.set_screen_exe_loc` to set it.")
+        " Use `screen3.set_screen_exe_path` to set it.")
 
     H_defaults = (30.0, 10.0, 20.0)  # remember to change this if change the default arguments above!?
     if any(x0 != x for x0, x in zip(H_defaults, [HB, HL, HW])) and DOWNWASH_YN == 'N':
@@ -472,9 +486,7 @@ def run_screen(
     return df
 
 
-
-
-def add_units(x_units, y_units, *, ax=None):
+def _add_units(x_units, y_units, *, ax=None):
     """Add units and make room."""
     if ax is None:
         ax = plt.gca()
@@ -488,7 +500,6 @@ def add_units(x_units, y_units, *, ax=None):
     # fig.tight_layout()
 
 
-
 def plot_conc(
     df, 
     *, 
@@ -499,42 +510,38 @@ def plot_conc(
     plot_type='line', 
     ax=None,
     **pyplot_kwargs):
-    """Plot conc.
+    """Plot concentration.
 
     The first argument (positional) can be one `df` or a list of `df`s. 
     If you pass a list of `df`s, you can also pass `labels`. 
 
-    The default plot type is 'line', but 2-D plots 'pcolor' and 'contourf' are also options. 
+    The default plot type is `'line'`, but 2-D plots `'pcolor'` and `'contourf'` are also options. 
     Unless you additionally pass `yvals`, they will be plotted as if the labels were equally spaced. 
 
-    INPUTS (required)
-    ------
-    df : pd.DataFrame  or  list of them
-        of the data extracted from the SCREEN.OUT of the run
-
-    INPUTS (optional)
-    ------
-    labels : list (or array)
-        labels for the separate cases 
-        used if input `df` is a list of output dfs instead of just one
-        currently we assume that the first part of the label is the variable name that is being varied
-    yvals : list (or array)
-        options positions of labels
+    Parameters
+    ----------
+    df : pd.DataFrame or list of pd.DataFrame
+        Data extracted from the `SCREEN.OUT` of the run(s) using `read_screen`.
+    labels : array_like
+        Labels for the separate cases.
+        Used if input `df` is a list instead of just one dataset.
+        Currently we assume that the first part of the label is the variable name that is being varied.
+    yvals : array_like
+        Optional positions of labels.
     yvar : str
-        y variable name
-        only used if labels not provided
+        *y* variable name.
+        Only used if labels not provided.
     yvar_units : str
-        units to use when labeling yvar
-        only used if labels not provided
+        Units to use when labeling `yvar`.
+        Only used if `labels` not provided.
     plot_type : str {'line', 'pcolor', 'contourf'}
-        type of plot to do
+        The type of plot to do.
     ax : plt.Axes
-        if not passed, create a new figure and ax
-        else plot on the passed ax
-
+        If an existing ax is not passed, we create a new figure (and ax).
+        Else, we plot on the existing ax.
     **pyplot_kwargs
-        passed through to the relevant pyplot plotting function
-
+        Passed on to the relevant pyplot plotting function,
+        e.g., `ax.plot`.
     """
     units = SCREEN_OUT_COL_UNITS_DICT
     # or df.attrs['units']
@@ -595,11 +602,11 @@ def plot_conc(
                     ax.set_yticklabels(labels)
 
                 ax.set_ylabel(yvar)
-                add_units(units['DIST'], yvar_units, ax=ax)
+                _add_units(units['DIST'], yvar_units, ax=ax)
 
             else:
                 Y = labels
-                add_units(units['DIST'], '', ax=ax)
+                _add_units(units['DIST'], '', ax=ax)
 
             X = df[0].DIST
             # Y = yvals if yvals.any() else labels
@@ -624,7 +631,7 @@ def plot_conc(
 
     if plot_type == 'line':
         ax.set_ylabel('CONC')
-        add_units(units['DIST'], units['CONC'], ax=ax)  # use the units dict to look up the units
+        _add_units(units['DIST'], units['CONC'], ax=ax)  # use the units dict to look up the units
 
         # ax.set_xlim(xmin=0, xmax=)
         ax.autoscale(axis='x', tight=True)
@@ -633,5 +640,3 @@ def plot_conc(
     fig.tight_layout()
 
     return fig
-
-
