@@ -32,6 +32,7 @@ __all__ = (
     "run_screen",
     "read_screen",
     "plot_conc",
+    "download",
     "set_screen_exe_path",
     "SCREEN_OUT_COL_UNITS_DICT",
 )
@@ -46,6 +47,36 @@ if not (sys.version_info.major >= 3 and sys.version_info.minor >= 6):
 # TODO: on Jose's Mac it set to use the Win and failed to to multi-run stuff, but the checks did not activate! 
 # (didn't see erorrs on Jose's screen)
 # it just ran one case for meteo/downwash and gave no answers
+
+
+def download(*, extract_to="src"):
+    """Download the SCREEN3 zip from EPA and extract.
+
+    If it fails, download it some other way, from,
+    <https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip>.
+
+    Parameters
+    ----------
+    extract_to : str, pathlib.Path
+        Where to extract the files to, relative to this file (the `screen3` python module).
+
+    """
+    import io
+    import zipfile
+    from pathlib import Path
+
+    import requests
+
+    url = "https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip"
+
+    to = Path(__file__).parent / extract_to
+    to.mkdir(exist_ok=True)
+    
+    r = requests.get(url, verify=False)  # TODO: get it working without having to disable certificate verification
+    with zipfile.ZipFile(io.BytesIO(r.content)) as z:
+        for info in z.infolist():
+            with z.open(info) as zf, open(to / info.filename, "wb") as f:
+                f.write(zf.read())
 
 
 _SCREEN_EXE_PATH = None
