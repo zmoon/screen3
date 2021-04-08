@@ -271,10 +271,12 @@ def read_screen(
     
     units_dict = dict(zip(col_names, col_units))
 
-    # p_dat = p.parents[0] / 'SCREEN.DAT'
     p_dat = p.parents[0] / f'{p.stem}.DAT'
-    with open(p_dat, 'r') as f:
-        s_screen_dat = f.read()
+    try:
+        with open(p_dat, 'r') as f:
+            s_screen_dat = f.read()
+    except FileNotFoundError:
+        s_screen_dat = None
 
     #> assign attrs to df
     #  Pandas only added attrs recently. they may not have
@@ -686,3 +688,17 @@ def plot_conc(
     fig.tight_layout()
 
     return fig
+
+
+def load_example(s):
+    """Load one of the examples included with the screen3.zip download,
+    such as `'EXAMPLE.OUT'`.
+    """
+    valid_examples = [
+        "EXAMPLE.OUT", "examplenew.out", "examplnrnew.out",
+        "EXAMPNR.OUT", "exampnrnew.out",
+    ]
+    if s not in valid_examples:
+        raise ValueError(f"invalid example file name. Valid options are: {valid_examples}")
+
+    return read_screen(_THIS_DIR / "src" / s)

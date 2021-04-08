@@ -3,11 +3,11 @@
 Demonstration of basic usage of the Python module `screen3`
 
 You can use `help({fn})` to see the help for each function, i.e., try running these:
-help(screen3)
-help(screen3.run_screen)
-help(screen3.plot_conc)
-help(screen3.read_screen)
-help(screen3.set_screen_exe_loc)
+    help(screen3)
+    help(screen3.run_screen)
+    help(screen3.plot_conc)
+    help(screen3.read_screen)
+    help(screen3.set_screen_exe_loc)
 
 @author: zmoon
 """
@@ -26,8 +26,6 @@ plt.close('all')
 #   if SCREEN3.exe is in the same directory as this script, you shouldn't have to set it
 
 # screen3.set_screen_exe_loc('path/to/an/executable.exe')
-
-screen3.set_screen_exe_loc('screen3_Win/SCREEN3.exe')
 
 
 #%% run with default settings
@@ -70,8 +68,8 @@ fig.savefig('fig_sample-modified-settings.pdf')
 # we pass the fn the paths of the two example files that are included when you download SCREEN3 from EPA
 # you may have to modify them
 # here we assume that we have them in the current directory
-df1 = screen3.read_screen('./screen3_Win/EXAMPLE.OUT')
-df2 = screen3.read_screen('./screen3_Win/EXAMPNR.OUT')
+df1 = screen3.load_example('EXAMPLE.OUT')
+df2 = screen3.load_example('EXAMPNR.OUT')
 
 fig1 = screen3.plot_conc(df1)
 fig2 = screen3.plot_conc(df2)
