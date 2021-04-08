@@ -1,3 +1,4 @@
 *
 !.gitignore
 !*.patch
+!build.sh

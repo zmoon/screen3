@@ -34,12 +34,9 @@ jobs:
         if: contains(matrix.os, 'ubuntu')
         run: |
           set -xe
-          cd ./src
           sudo apt install dos2unix
-          dos2unix *.FOR
-          patch SCREEN3A.FOR SCREEN3A.FOR.patch
-          patch DEPVAR.INC DEPVAR.INC.patch
-          gfortran -cpp SCREEN3A.FOR SCREEN3B.FOR SCREEN3C.FOR -o SCREEN3.exe
+          cd ./src
+          bash build.sh
           cd ../
 
       - name: Run tests (pytest)
