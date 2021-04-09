@@ -62,15 +62,15 @@ screen3    </h1>
 <a href="https://www.epa.gov/scram/air-quality-dispersion-modeling-screening-models#screen3">SCREEN3</a>.</p>
 
 <ul>
-<li>wrapper to quickly create a run without needing to go through the prompt</li>
-<li>load the output into Pandas</li>
-<li>some plotting routines</li>
+<li><code><a href="#run">screen3.run</a></code> – wrapper to quickly create a run without needing to go through the prompt</li>
+<li><code><a href="#read">screen3.read</a></code> – load the output into a pandas DataFrame</li>
+<li><code><a href="#plot">screen3.plot</a></code> – some plotting routines using the output DataFrame</li>
 </ul>
 
 <p>Most of the variables related to SCREEN3 are the same as the ones in the SCREEN3 input and output files,
 including that they are in uppercase.</p>
 
-<p>Code in here should generally not need to be modified for basic runs.</p>
+<p><code><a href="">screen3</a></code> lives <a href="https://github.com/zmoon/screen3">on GitHub</a>.</p>
 
 <p><em>Note:</em>
 Python 3.6+ is required</p>
@@ -82,14 +82,14 @@ Python 3.6+ is required</p>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Python functions for using</span>
 <span class="sd">[SCREEN3](https://www.epa.gov/scram/air-quality-dispersion-modeling-screening-models#screen3).</span>
-<span class="sd">* wrapper to quickly create a run without needing to go through the prompt</span>
-<span class="sd">* load the output into Pandas</span>
-<span class="sd">* some plotting routines</span>
+<span class="sd">* `screen3.run` – wrapper to quickly create a run without needing to go through the prompt</span>
+<span class="sd">* `screen3.read` – load the output into a pandas DataFrame</span>
+<span class="sd">* `screen3.plot` – some plotting routines using the output DataFrame</span>
 
 <span class="sd">Most of the variables related to SCREEN3 are the same as the ones in the SCREEN3 input and output files,</span>
 <span class="sd">including that they are in uppercase.</span>
 
-<span class="sd">Code in here should generally not need to be modified for basic runs.</span>
+<span class="sd">`screen3` lives [on GitHub](https://github.com/zmoon/screen3).</span>
 
 <span class="sd">.. note::</span>
 <span class="sd">   Python 3.6+ is required</span>
@@ -140,7 +140,7 @@ Python 3.6+ is required</p>
 
 <span class="sd">    If it fails, download it some other way.</span>
 
-<span class="sd">    &lt;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&gt;.</span>
+<span class="sd">    &lt;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&gt;</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -167,7 +167,7 @@ Python 3.6+ is required</p>
 
 
 <span class="k">def</span> <span class="nf">set_exe_path</span><span class="p">(</span><span class="n">fp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Manually configure the path of the `SCREEN3.exe` to use when invoking `run_screen`.</span>
+    <span class="sd">&quot;&quot;&quot;Manually configure the path of the `SCREEN3.exe` to use when invoking `run`.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -236,29 +236,31 @@ Python 3.6+ is required</p>
     <span class="n">t_run</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">run_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read and extract data from a SCREEN3 run (a `SCREEN.OUT` file).</span>
+    <span class="sd">&quot;&quot;&quot;Read and extract data from a SCREEN3 run (i.e., a `SCREEN.OUT` file).</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    fp : str, pathlib.Path</span>
 <span class="sd">        File path to the `SCREEN.OUT` file,</span>
-<span class="sd">        e.g., `&#39;./screen3/SCREEN.out&#39;`.</span>
+<span class="sd">        e.g., `&#39;./screen3/SCREEN.OUT&#39;`.</span>
 <span class="sd">    t_run : datetime.datetime</span>
 <span class="sd">        Time of the run.</span>
 <span class="sd">        If the output file (`SCREEN.OUT`) is older than this, the run did not complete successfully.</span>
 <span class="sd">    run_inputs : dict, optional</span>
-<span class="sd">        `run_screen` passes this so that we can store what the inputs to the Python function were for this run,</span>
+<span class="sd">        `run` passes this so that we can store what the inputs to the Python function were for this run,</span>
 <span class="sd">        though `SCREEN.OUT` should have much of the same info.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        of the data</span>
-<span class="sd">        .attrs: </span>
-<span class="sd">            units : dict</span>
-<span class="sd">                keys: the variables names</span>
-<span class="sd">                values: unit strings (for use in plots)</span>
-<span class="sd">            SCREEN_OUT : str</span>
+<span class="sd">        SCREEN3 output dataset.</span>
+
+<span class="sd">        If the pandas version has [`attrs`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.attrs.html),</span>
+<span class="sd">        `df.attrs` will include the following:</span>
+<span class="sd">        * `&#39;units&#39;`: (dict) *keys*: the variables names, *values*: unit strings (for use in plots)</span>
+<span class="sd">        * `&#39;SCREEN_OUT&#39;`: (str) the SCREEN3 output file as a string</span>
+<span class="sd">        * `&#39;SCREEN_DAT&#39;`: (str) the SCREEN3 DAT (copied inputs) file as a string</span>
+<span class="sd">        * `&#39;run_inputs&#39;`: (dict) copy of the inputs to the the `run` function used to generated this dataset (if applicable)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">run_inputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">run_inputs</span> <span class="o">=</span> <span class="p">{}</span>
@@ -406,7 +408,7 @@ Python 3.6+ is required</p>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        Results dataset, read from the `SCREEN.OUT` by `read_screen`.</span>
+<span class="sd">        Results dataset, read from the `SCREEN.OUT` by `read`.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -420,13 +422,13 @@ Python 3.6+ is required</p>
 
     <span class="c1"># Confirm exe path set</span>
     <span class="k">if</span> <span class="n">_SCREEN_EXE_PATH</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_SCREEN_EXE_PATH</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Before running the location of the executable must be set using `screen3.set_screen_exe_path`.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Before running the location of the executable must be set using `screen3.set_exe_path`.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Check exe is file</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;</span><span class="si">{fp!r}</span><span class="s2"> does not exist or is not a file.&quot;</span>
-            <span class="s2">&quot; Use `screen3.set_screen_exe_path` to set it.&quot;</span>
+            <span class="s2">&quot; Use `screen3.set_exe_path` to set it.&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Check for H changes without downwad</span>
@@ -560,15 +562,13 @@ Python 3.6+ is required</p>
     <span class="n">syu</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">y_units</span><span class="si">}</span><span class="s1">)&#39;</span> <span class="k">if</span> <span class="n">y_units</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">xl</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">sxu</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">xl</span> <span class="k">else</span> <span class="n">sxu</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">yl</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">syu</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">xl</span> <span class="k">else</span> <span class="n">syu</span><span class="p">)</span>
-    <span class="c1"># fig = plt.gcf()</span>
-    <span class="c1"># fig.tight_layout()</span>
 
 
 <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span> 
     <span class="o">*</span><span class="p">,</span> 
-    <span class="n">labels</span><span class="o">=</span><span class="p">[],</span> 
-    <span class="n">yvals</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">yvar</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">yvar_units</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> 
@@ -585,7 +585,7 @@ Python 3.6+ is required</p>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame or list of pd.DataFrame</span>
-<span class="sd">        Data extracted from the `SCREEN.OUT` of the run(s) using `read_screen`.</span>
+<span class="sd">        Data extracted from the `SCREEN.OUT` of the run(s) using `read`.</span>
 <span class="sd">    labels : array_like</span>
 <span class="sd">        Labels for the separate cases.</span>
 <span class="sd">        Used if input `df` is a list instead of just one dataset.</span>
@@ -607,8 +607,13 @@ Python 3.6+ is required</p>
 <span class="sd">        Passed on to the relevant pyplot plotting function,</span>
 <span class="sd">        e.g., `ax.plot`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">yvals</span> <span class="o">=</span> <span class="p">[]</span>
+
     <span class="n">units</span> <span class="o">=</span> <span class="n">SCREEN_OUT_COL_UNITS_DICT</span>
-    <span class="c1"># or df.attrs[&#39;units&#39;]</span>
+    <span class="c1"># or `df.attrs[&#39;units&#39;]`</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;df is not a `pd.DataFrame` or `list`, it is type `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
@@ -686,8 +691,6 @@ Python 3.6+ is required</p>
 
             <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CONC (</span><span class="si">{</span><span class="n">units</span><span class="p">[</span><span class="s1">&#39;CONC&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
-
-
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># just one to plot</span>
         <span class="k">if</span> <span class="n">plot_type</span> <span class="o">!=</span> <span class="s1">&#39;line&#39;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;With only one run, only `plot_type` &#39;line&#39; can be used&quot;</span><span class="p">)</span>
@@ -699,7 +702,6 @@ Python 3.6+ is required</p>
 
         <span class="c1"># ax.set_xlim(xmin=0, xmax=)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">tight</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
 
     <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
@@ -827,7 +829,7 @@ Python 3.6+ is required</p>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        Results dataset, read from the `SCREEN.OUT` by `read_screen`.</span>
+<span class="sd">        Results dataset, read from the `SCREEN.OUT` by `read`.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -841,13 +843,13 @@ Python 3.6+ is required</p>
 
     <span class="c1"># Confirm exe path set</span>
     <span class="k">if</span> <span class="n">_SCREEN_EXE_PATH</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_SCREEN_EXE_PATH</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Before running the location of the executable must be set using `screen3.set_screen_exe_path`.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Before running the location of the executable must be set using `screen3.set_exe_path`.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Check exe is file</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;</span><span class="si">{fp!r}</span><span class="s2"> does not exist or is not a file.&quot;</span>
-            <span class="s2">&quot; Use `screen3.set_screen_exe_path` to set it.&quot;</span>
+            <span class="s2">&quot; Use `screen3.set_exe_path` to set it.&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Check for H changes without downwad</span>
@@ -1028,7 +1030,7 @@ Maximum horizontal building dimension (m).</li>
 
 <ul>
 <li><strong>df</strong> (pd.DataFrame):
-Results dataset, read from the <code>SCREEN.OUT</code> by <code>read_screen</code>.</li>
+Results dataset, read from the <code>SCREEN.OUT</code> by <code><a href="#read">read</a></code>.</li>
 </ul>
 
 <h6 id="notes">Notes</h6>
@@ -1056,29 +1058,31 @@ Both of these will be in the source directory, where the executable resides.</p>
     <span class="n">t_run</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">run_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read and extract data from a SCREEN3 run (a `SCREEN.OUT` file).</span>
+    <span class="sd">&quot;&quot;&quot;Read and extract data from a SCREEN3 run (i.e., a `SCREEN.OUT` file).</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    fp : str, pathlib.Path</span>
 <span class="sd">        File path to the `SCREEN.OUT` file,</span>
-<span class="sd">        e.g., `&#39;./screen3/SCREEN.out&#39;`.</span>
+<span class="sd">        e.g., `&#39;./screen3/SCREEN.OUT&#39;`.</span>
 <span class="sd">    t_run : datetime.datetime</span>
 <span class="sd">        Time of the run.</span>
 <span class="sd">        If the output file (`SCREEN.OUT`) is older than this, the run did not complete successfully.</span>
 <span class="sd">    run_inputs : dict, optional</span>
-<span class="sd">        `run_screen` passes this so that we can store what the inputs to the Python function were for this run,</span>
+<span class="sd">        `run` passes this so that we can store what the inputs to the Python function were for this run,</span>
 <span class="sd">        though `SCREEN.OUT` should have much of the same info.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        of the data</span>
-<span class="sd">        .attrs: </span>
-<span class="sd">            units : dict</span>
-<span class="sd">                keys: the variables names</span>
-<span class="sd">                values: unit strings (for use in plots)</span>
-<span class="sd">            SCREEN_OUT : str</span>
+<span class="sd">        SCREEN3 output dataset.</span>
+
+<span class="sd">        If the pandas version has [`attrs`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.attrs.html),</span>
+<span class="sd">        `df.attrs` will include the following:</span>
+<span class="sd">        * `&#39;units&#39;`: (dict) *keys*: the variables names, *values*: unit strings (for use in plots)</span>
+<span class="sd">        * `&#39;SCREEN_OUT&#39;`: (str) the SCREEN3 output file as a string</span>
+<span class="sd">        * `&#39;SCREEN_DAT&#39;`: (str) the SCREEN3 DAT (copied inputs) file as a string</span>
+<span class="sd">        * `&#39;run_inputs&#39;`: (dict) copy of the inputs to the the `run` function used to generated this dataset (if applicable)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">run_inputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">run_inputs</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1153,32 +1157,37 @@ Both of these will be in the source directory, where the executable resides.</p>
 
         </details>
 
-            <div class="docstring"><p>Read and extract data from a SCREEN3 run (a <code>SCREEN.OUT</code> file).</p>
+            <div class="docstring"><p>Read and extract data from a SCREEN3 run (i.e., a <code>SCREEN.OUT</code> file).</p>
 
 <h6 id="parameters">Parameters</h6>
 
 <ul>
 <li><strong>fp</strong> (str, pathlib.Path):
 File path to the <code>SCREEN.OUT</code> file,
-e.g., <code>'./screen3/SCREEN.out'</code>.</li>
+e.g., <code>'./screen3/SCREEN.OUT'</code>.</li>
 <li><strong>t_run</strong> (datetime.datetime):
 Time of the run.
 If the output file (<code>SCREEN.OUT</code>) is older than this, the run did not complete successfully.</li>
 <li><strong>run_inputs</strong> (dict, optional):
-<code>run_screen</code> passes this so that we can store what the inputs to the Python function were for this run,
+<code><a href="#run">run</a></code> passes this so that we can store what the inputs to the Python function were for this run,
 though <code>SCREEN.OUT</code> should have much of the same info.</li>
 </ul>
 
 <h6 id="returns">Returns</h6>
 
 <ul>
-<li><strong>df</strong> (pd.DataFrame):
-of the data
-.attrs: 
-   units : dict
-       keys: the variables names
-       values: unit strings (for use in plots)
-   SCREEN_OUT : str</li>
+<li><p><strong>df</strong> (pd.DataFrame):
+SCREEN3 output dataset.</p>
+
+<p>If the pandas version has <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.attrs.html"><code>attrs</code></a>,
+<code>df.attrs</code> will include the following:</p>
+
+<ul>
+<li><code>'units'</code>: (dict) <em>keys</em>: the variables names, <em>values</em>: unit strings (for use in plots)</li>
+<li><code>'SCREEN_OUT'</code>: (str) the SCREEN3 output file as a string</li>
+<li><code>'SCREEN_DAT'</code>: (str) the SCREEN3 DAT (copied inputs) file as a string</li>
+<li><code>'run_inputs'</code>: (dict) copy of the inputs to the the <code><a href="#run">run</a></code> function used to generated this dataset (if applicable)</li>
+</ul></li>
 </ul>
 </div>
 
@@ -1192,8 +1201,8 @@ of the data
             <span class="name">plot</span><span class="signature">(
     df,
     *,
-    labels=[],
-    yvals=[],
+    labels=None,
+    yvals=None,
     yvar=&#39;&#39;,
     yvar_units=&#39;&#39;,
     plot_type=&#39;line&#39;,
@@ -1207,8 +1216,8 @@ of the data
             <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span> 
     <span class="o">*</span><span class="p">,</span> 
-    <span class="n">labels</span><span class="o">=</span><span class="p">[],</span> 
-    <span class="n">yvals</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">yvals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">yvar</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">yvar_units</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span> 
@@ -1225,7 +1234,7 @@ of the data
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame or list of pd.DataFrame</span>
-<span class="sd">        Data extracted from the `SCREEN.OUT` of the run(s) using `read_screen`.</span>
+<span class="sd">        Data extracted from the `SCREEN.OUT` of the run(s) using `read`.</span>
 <span class="sd">    labels : array_like</span>
 <span class="sd">        Labels for the separate cases.</span>
 <span class="sd">        Used if input `df` is a list instead of just one dataset.</span>
@@ -1247,8 +1256,13 @@ of the data
 <span class="sd">        Passed on to the relevant pyplot plotting function,</span>
 <span class="sd">        e.g., `ax.plot`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">yvals</span> <span class="o">=</span> <span class="p">[]</span>
+
     <span class="n">units</span> <span class="o">=</span> <span class="n">SCREEN_OUT_COL_UNITS_DICT</span>
-    <span class="c1"># or df.attrs[&#39;units&#39;]</span>
+    <span class="c1"># or `df.attrs[&#39;units&#39;]`</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;df is not a `pd.DataFrame` or `list`, it is type `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
@@ -1326,8 +1340,6 @@ of the data
 
             <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CONC (</span><span class="si">{</span><span class="n">units</span><span class="p">[</span><span class="s1">&#39;CONC&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
-
-
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># just one to plot</span>
         <span class="k">if</span> <span class="n">plot_type</span> <span class="o">!=</span> <span class="s1">&#39;line&#39;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;With only one run, only `plot_type` &#39;line&#39; can be used&quot;</span><span class="p">)</span>
@@ -1339,7 +1351,6 @@ of the data
 
         <span class="c1"># ax.set_xlim(xmin=0, xmax=)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">tight</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
 
     <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
@@ -1360,7 +1371,7 @@ Unless you additionally pass <code>yvals</code>, they will be plotted as if the 
 
 <ul>
 <li><strong>df</strong> (pd.DataFrame or list of pd.DataFrame):
-Data extracted from the <code>SCREEN.OUT</code> of the run(s) using <code>read_screen</code>.</li>
+Data extracted from the <code>SCREEN.OUT</code> of the run(s) using <code><a href="#read">read</a></code>.</li>
 <li><strong>labels</strong> (array_like):
 Labels for the separate cases.
 Used if input <code>df</code> is a list instead of just one dataset.
@@ -1400,7 +1411,7 @@ e.g., <code>ax.plot</code>.</li>
 
 <span class="sd">    If it fails, download it some other way.</span>
 
-<span class="sd">    &lt;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&gt;.</span>
+<span class="sd">    &lt;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&gt;</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1432,7 +1443,7 @@ e.g., <code>ax.plot</code>.</li>
 
 <p>If it fails, download it some other way.</p>
 
-<p><a href="https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip">https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip</a>.</p>
+<p><a href="https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip">https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip</a></p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -1487,7 +1498,7 @@ such as <code>'EXAMPLE.OUT'</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_exe_path</span><span class="p">(</span><span class="n">fp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Manually configure the path of the `SCREEN3.exe` to use when invoking `run_screen`.</span>
+    <span class="sd">&quot;&quot;&quot;Manually configure the path of the `SCREEN3.exe` to use when invoking `run`.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1506,7 +1517,7 @@ such as <code>'EXAMPLE.OUT'</code>.</p>
 
         </details>
 
-            <div class="docstring"><p>Manually configure the path of the <code>SCREEN3.exe</code> to use when invoking <code>run_screen</code>.</p>
+            <div class="docstring"><p>Manually configure the path of the <code>SCREEN3.exe</code> to use when invoking <code><a href="#run">run</a></code>.</p>
 
 <h6 id="parameters">Parameters</h6>
 
