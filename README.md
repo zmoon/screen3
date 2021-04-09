@@ -21,3 +21,8 @@ screen3.download()
 On Windows, the above is sufficient to be able to use `screen3`.
 On non-Windows platforms, the model must be built from source.
 The [`src/build.sh`](src/build.sh) script can be used.
+
+## Examples
+
+`git clone` the repo, use Code > Download Zip (buttons), or use this [DownGit](https://github.com/MinhasKamal/DownGit) link:  
+<https://downgit.github.io/#/home?url=https://github.com/zmoon/screen3/tree/main/examples>
