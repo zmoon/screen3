@@ -2,14 +2,14 @@
 """
 Python functions for using
 [SCREEN3](https://www.epa.gov/scram/air-quality-dispersion-modeling-screening-models#screen3).
-* wrapper to quickly create a run without needing to go through the prompt
-* load the output into Pandas
-* some plotting routines
+* `screen3.run` – wrapper to quickly create a run without needing to go through the prompt
+* `screen3.read` – load the output into a pandas DataFrame
+* `screen3.plot` – some plotting routines using the output DataFrame
 
 Most of the variables related to SCREEN3 are the same as the ones in the SCREEN3 input and output files,
 including that they are in uppercase.
 
-Code in here should generally not need to be modified for basic runs.
+`screen3` lives [on GitHub](https://github.com/zmoon/screen3).
 
 .. note::
    Python 3.6+ is required
@@ -60,7 +60,7 @@ def download(*, extract_to="src"):
 
     If it fails, download it some other way.
 
-    <https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip>.
+    <https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip>
 
     Parameters
     ----------
@@ -87,7 +87,7 @@ def download(*, extract_to="src"):
 
 
 def set_exe_path(fp):
-    """Manually configure the path of the `SCREEN3.exe` to use when invoking `run_screen`.
+    """Manually configure the path of the `SCREEN3.exe` to use when invoking `run`.
     
     Parameters
     ----------
@@ -156,29 +156,31 @@ def read(
     t_run=None,
     run_inputs=None,
 ):
-    """Read and extract data from a SCREEN3 run (a `SCREEN.OUT` file).
+    """Read and extract data from a SCREEN3 run (i.e., a `SCREEN.OUT` file).
     
     Parameters
     ----------
     fp : str, pathlib.Path
         File path to the `SCREEN.OUT` file,
-        e.g., `'./screen3/SCREEN.out'`.
+        e.g., `'./screen3/SCREEN.OUT'`.
     t_run : datetime.datetime
         Time of the run.
         If the output file (`SCREEN.OUT`) is older than this, the run did not complete successfully.
     run_inputs : dict, optional
-        `run_screen` passes this so that we can store what the inputs to the Python function were for this run,
+        `run` passes this so that we can store what the inputs to the Python function were for this run,
         though `SCREEN.OUT` should have much of the same info.
 
     Returns
     -------
     df : pd.DataFrame
-        of the data
-        .attrs: 
-            units : dict
-                keys: the variables names
-                values: unit strings (for use in plots)
-            SCREEN_OUT : str
+        SCREEN3 output dataset.
+
+        If the pandas version has [`attrs`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.attrs.html),
+        `df.attrs` will include the following:
+        * `'units'`: (dict) *keys*: the variables names, *values*: unit strings (for use in plots)
+        * `'SCREEN_OUT'`: (str) the SCREEN3 output file as a string
+        * `'SCREEN_DAT'`: (str) the SCREEN3 DAT (copied inputs) file as a string
+        * `'run_inputs'`: (dict) copy of the inputs to the the `run` function used to generated this dataset (if applicable)
     """
     if run_inputs is None:
         run_inputs = {}
@@ -326,7 +328,7 @@ def run(
     Returns
     -------
     df : pd.DataFrame
-        Results dataset, read from the `SCREEN.OUT` by `read_screen`.
+        Results dataset, read from the `SCREEN.OUT` by `read`.
 
     Notes
     -----
@@ -340,13 +342,13 @@ def run(
 
     # Confirm exe path set
     if _SCREEN_EXE_PATH is None or not isinstance(_SCREEN_EXE_PATH, Path):
-        raise ValueError("Before running the location of the executable must be set using `screen3.set_screen_exe_path`.")
+        raise ValueError("Before running the location of the executable must be set using `screen3.set_exe_path`.")
 
     # Check exe is file
     if not _SCREEN_EXE_PATH.is_file():
         raise ValueError(
             "{fp!r} does not exist or is not a file."
-            " Use `screen3.set_screen_exe_path` to set it."
+            " Use `screen3.set_exe_path` to set it."
         )
 
     # Check for H changes without downwad
@@ -480,15 +482,13 @@ def _add_units(x_units, y_units, *, ax=None):
     syu = f'({y_units})' if y_units else ''
     ax.set_xlabel(f'{xl} {sxu}' if xl else sxu)
     ax.set_ylabel(f'{yl} {syu}' if xl else syu)
-    # fig = plt.gcf()
-    # fig.tight_layout()
 
 
 def plot(
     df, 
     *, 
-    labels=[], 
-    yvals=[],
+    labels=None,
+    yvals=None,
     yvar="",
     yvar_units="",
     plot_type='line', 
@@ -505,7 +505,7 @@ def plot(
     Parameters
     ----------
     df : pd.DataFrame or list of pd.DataFrame
-        Data extracted from the `SCREEN.OUT` of the run(s) using `read_screen`.
+        Data extracted from the `SCREEN.OUT` of the run(s) using `read`.
     labels : array_like
         Labels for the separate cases.
         Used if input `df` is a list instead of just one dataset.
@@ -527,8 +527,13 @@ def plot(
         Passed on to the relevant pyplot plotting function,
         e.g., `ax.plot`.
     """
+    if labels is None:
+        labels = []
+    if yvals is None:
+        yvals = []
+
     units = SCREEN_OUT_COL_UNITS_DICT
-    # or df.attrs['units']
+    # or `df.attrs['units']`
 
     if not isinstance(df, (pd.DataFrame, list)):
         raise TypeError(f"df is not a `pd.DataFrame` or `list`, it is type `{type(df).__name__}`")
@@ -606,8 +611,6 @@ def plot(
 
             cb.set_label(f"CONC ({units['CONC']})")
 
-
-
     else:  # just one to plot
         if plot_type != 'line':
             raise ValueError("With only one run, only `plot_type` 'line' can be used")
@@ -619,7 +622,6 @@ def plot(
 
         # ax.set_xlim(xmin=0, xmax=)
         ax.autoscale(axis='x', tight=True)
-
 
     fig.tight_layout()
 
