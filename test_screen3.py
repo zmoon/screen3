@@ -32,8 +32,8 @@ def test_run_src_dir_with_spaces():
         screen3.download(extract_to=p)
 
     exe0 = screen3._SCREEN_EXE_PATH
-    screen3.set_screen_exe_path(p / "SCREEN3.EXE")
-    screen3.run_screen()
-    screen3.set_screen_exe_path(exe0)
+    screen3.set_exe_path(p / "SCREEN3.EXE")
+    screen3.run()
+    screen3.set_exe_path(exe0)
 
     shutil.rmtree(p)

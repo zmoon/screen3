@@ -39,7 +39,7 @@ for hb in HB_vals:
     
         hl = 0.7 * hw  # minimum horiz dim as fraction of max
     
-        df = screen3.run_screen(HB=hb, HL=hl, HW=hw, DOWNWASH_YN='Y', U_or_R='U', X=X)
+        df = screen3.run(HB=hb, HL=hl, HW=hw, DOWNWASH_YN='Y', U_or_R='U', X=X)
         
         all_runs.append((hb, hw, df))
         
@@ -63,7 +63,7 @@ labels = [f"{run[0]:.2g} m" for run in runs ]
 
 fig, ax = plt.subplots()
 
-screen3.plot_conc(dfs, labels=labels, ax=ax)
+screen3.plot(dfs, labels=labels, ax=ax)
 
 ax.set_title('Impact of building height (HB)')
 ax.set_title(f"HW = {HW_choice}", loc='left', fontsize='small')
@@ -92,7 +92,7 @@ labels = [f"{run[1]:.2g} m" for run in runs ]
 
 fig, ax = plt.subplots()
 
-screen3.plot_conc(dfs, labels=labels, ax=ax)
+screen3.plot(dfs, labels=labels, ax=ax)
 
 ax.set_title('Impact of building max horiz dimension (HW)')
 ax.set_title(f"HB = {HB_choice}", loc='left', fontsize='small')

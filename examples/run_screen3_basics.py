@@ -4,10 +4,10 @@ Demonstration of basic usage of the Python module `screen3`
 
 You can use `help({fn})` to see the help for each function, i.e., try running these:
     help(screen3)
-    help(screen3.run_screen)
-    help(screen3.plot_conc)
-    help(screen3.read_screen)
-    help(screen3.set_screen_exe_path)
+    help(screen3.run)
+    help(screen3.plot)
+    help(screen3.read)
+    help(screen3.set_exe_path)
 
 @author: zmoon
 """
@@ -29,9 +29,9 @@ plt.close('all')
 
 # %% Run with default settings
 
-df = screen3.run_screen()
+df = screen3.run()
 
-fig = screen3.plot_conc(df)
+fig = screen3.plot(df)
 
 plt.title("A title")  # we can add a title to the figure after it has been created
 plt.tight_layout()
@@ -41,7 +41,7 @@ plt.tight_layout()
 
 # %% Demonstrate how to modify input parameters
 
-df = screen3.run_screen(
+df = screen3.run(
     RUN_NAME='the best run.',
     Q=500.0,
     HS=20.0,
@@ -58,7 +58,7 @@ df = screen3.run_screen(
     HB=40.0
 )
 
-fig = screen3.plot_conc(df)
+fig = screen3.plot(df)
 
 # fig.savefig('fig_sample-modified-settings.pdf')
 
@@ -68,8 +68,8 @@ fig = screen3.plot_conc(df)
 df1 = screen3.load_example('EXAMPLE.OUT')
 df2 = screen3.load_example('EXAMPNR.OUT')
 
-fig1 = screen3.plot_conc(df1)
-fig2 = screen3.plot_conc(df2)
+fig1 = screen3.plot(df1)
+fig2 = screen3.plot(df2)
 
 # fig1.savefig('fig_example.pdf')
 # fig2.savefig('fig_exampnr.pdf')

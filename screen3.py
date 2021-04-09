@@ -30,11 +30,12 @@ import numpy as np
 import pandas as pd
 
 __all__ = (
-    "run_screen",
-    "read_screen",
-    "plot_conc",
+    "run",
+    "read",
+    "plot",
     "download",
-    "set_screen_exe_path",
+    "load_example",
+    "set_exe_path",
     "SCREEN_OUT_COL_UNITS_DICT",
 )
 
@@ -57,7 +58,8 @@ _SCREEN_EXE_PATH = None
 def download(*, extract_to="src"):
     """Download the SCREEN3 zip from EPA and extract.
 
-    If it fails, download it some other way, from,
+    If it fails, download it some other way.
+
     <https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip>.
 
     Parameters
@@ -84,7 +86,7 @@ def download(*, extract_to="src"):
                 f.write(zf.read())
 
 
-def set_screen_exe_path(fp):
+def set_exe_path(fp):
     """Manually configure the path of the `SCREEN3.exe` to use when invoking `run_screen`.
     
     Parameters
@@ -109,7 +111,7 @@ def _try_to_set_screen_exe_path():
         # First try the standard location
         std_loc = _THIS_DIR / 'src/SCREEN3.exe'
         try:
-            set_screen_exe_path(std_loc)
+            set_exe_path(std_loc)
         except ValueError:
             warnings.warn(
                 f"the executable was not found in the expected location {std_loc.as_posix()}. "
@@ -129,7 +131,7 @@ def _try_to_set_screen_exe_path():
                 )
             elif len(exe_paths) == 1:
                 # Set if only one was found
-                set_screen_exe_path(exe_paths[0])
+                set_exe_path(exe_paths[0])
             else:
                 # Warn if none found
                 warnings.warn(
@@ -148,7 +150,7 @@ SCREEN_OUT_COL_UNITS_DICT = dict(zip(SCREEN_OUT_COL_NAMES, SCREEN_OUT_COL_UNITS)
 """Dict of units for the outputs, e.g., `'DIST': 'm'`."""
 
 
-def read_screen(
+def read(
     fp, 
     *, 
     t_run=None,
@@ -249,7 +251,7 @@ def read_screen(
     return df
 
 
-def run_screen(
+def run(
     *,
     RUN_NAME='A point-source SCREEN3 run',
     Q=100.0,
@@ -324,14 +326,13 @@ def run_screen(
     Returns
     -------
     df : pd.DataFrame
-        Results dataset, read from the `SCREEN.out` by `read_screen`.
+        Results dataset, read from the `SCREEN.OUT` by `read_screen`.
 
-    NOTES
+    Notes
     -----
-    This input data file is created in the current working directory.
-    The SCREEN3 program parses it and makes a copy in its directory called 'SCREEN.DAT'. 
-    Upon running, it produces an output file in its directory called 'SCREEN.OUT'. 
-
+    The SCREEN3 program parses the inputs and makes a copy called `SCREEN.DAT`.
+    Upon running, it produces an output file called `SCREEN.OUT`.
+    Both of these will be in the source directory, where the executable resides.
     """
     inputs = locals()  # collect inputs for saving in the df
 
@@ -464,7 +465,7 @@ def run_screen(
     os.chdir(cwd)
 
     # Read and parse the output
-    df = read_screen(src_dir/'SCREEN.OUT', t_run=t_utc_run, run_inputs=inputs)
+    df = read(src_dir/'SCREEN.OUT', t_run=t_utc_run, run_inputs=inputs)
 
     return df
 
@@ -483,7 +484,7 @@ def _add_units(x_units, y_units, *, ax=None):
     # fig.tight_layout()
 
 
-def plot_conc(
+def plot(
     df, 
     *, 
     labels=[], 
@@ -636,4 +637,4 @@ def load_example(s):
     if s not in valid_examples:
         raise ValueError(f"invalid example file name. Valid options are: {valid_examples}")
 
-    return read_screen(_THIS_DIR / "src" / s)
+    return read(_THIS_DIR / "src" / s)

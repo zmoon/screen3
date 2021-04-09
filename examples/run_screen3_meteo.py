@@ -54,7 +54,7 @@ for stab, d in stab_classes.items():
 
     dfs = []
     for ws_val in ws_vals:
-        df = screen3.run_screen(X=X, IMETEO=3, ISTAB=ISTAB, WS=ws_val)
+        df = screen3.run(X=X, IMETEO=3, ISTAB=ISTAB, WS=ws_val)
         dfs.append(df)
         
     # Save our stuff
@@ -69,7 +69,7 @@ for (stab, dfs, wss), ax in zip(runs, axs.flat):
     
     labels = [f"{ws:.2g} m/s" for ws in wss]
     
-    screen3.plot_conc(dfs, labels=labels, ax=ax)
+    screen3.plot(dfs, labels=labels, ax=ax)
     
     ax.set_title(f"{stab} ({stab_classes[stab][0]})")
 
