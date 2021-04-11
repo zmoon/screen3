@@ -34,6 +34,7 @@ __all__ = (
     "read",
     "plot",
     "download",
+    "build",
     "load_example",
     "set_exe_path",
     "SCREEN_OUT_COL_UNITS_DICT",
@@ -50,7 +51,11 @@ _THIS_DIR = Path(__file__).parent
 _SCREEN_EXE_PATH = None
 
 
-def download(*, extract_to="src"):
+DEFAULT_SRC_DIR = Path.home() / ".local/screen3/src"
+"""Default location to place the SCREEN3 source code from EPA."""
+
+
+def download(*, extract_to=DEFAULT_SRC_DIR):
     """Download the SCREEN3 zip from EPA and extract.
 
     If it fails, download it some other way.
@@ -60,8 +65,7 @@ def download(*, extract_to="src"):
     Parameters
     ----------
     extract_to : str, pathlib.Path
-        Where to extract the files to, relative to this file (the `screen3` python module).
-
+        Where to extract the files to.
     """
     import io
     import zipfile
@@ -71,8 +75,8 @@ def download(*, extract_to="src"):
 
     url = "https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip"
 
-    to = _THIS_DIR / extract_to
-    to.mkdir(exist_ok=True)
+    to = extract_to
+    to.mkdir(exist_ok=True, parents=True)
     
     r = requests.get(url, verify=False)  # TODO: get it working without having to disable certificate verification
     with zipfile.ZipFile(io.BytesIO(r.content)) as z:
@@ -124,7 +128,7 @@ _DEPVAR_PATCH = """
 """.lstrip()
 
 
-def build(*, src_path="src"):
+def build(*, src_path=DEFAULT_SRC_DIR):
     """Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.
     Requires `dos2unix` (for Linux/macOS), `patch`, and `gfortran` on PATH.
     """
@@ -174,7 +178,7 @@ def _try_to_set_screen_exe_path():
     set_msg = "Use `screen3.set_screen_exe_path` to set the path of the SCREEN3 executable to use."
     if _SCREEN_EXE_PATH is None:  # initial load of module
         # First try the standard location
-        std_loc = _THIS_DIR / 'src/SCREEN3.exe'
+        std_loc = DEFAULT_SRC_DIR / 'SCREEN3.exe'
         try:
             set_exe_path(std_loc)
         except ValueError:
@@ -203,9 +207,6 @@ def _try_to_set_screen_exe_path():
                     f"no 'SCREEN*.exe' could be found in {search_in.as_posix()}. " + set_msg,
                     stacklevel=2,
                 )
-
-
-_try_to_set_screen_exe_path()
 
 
 # note that U10M becomes UHANE in non-regulatory mode
@@ -402,6 +403,8 @@ def run(
     Both of these will be in the source directory, where the executable resides.
     """
     inputs = locals()  # collect inputs for saving in the df
+
+    _try_to_set_screen_exe_path()
 
     # TODO: should validate wind speed?
 
@@ -693,7 +696,7 @@ def plot(
     return fig
 
 
-def load_example(s):
+def load_example(s, *, from_=DEFAULT_SRC_DIR):
     """Load one of the examples included with the screen3.zip download,
     such as `'EXAMPLE.OUT'`.
     """
@@ -704,4 +707,4 @@ def load_example(s):
     if s not in valid_examples:
         raise ValueError(f"invalid example file name. Valid options are: {valid_examples}")
 
-    return read(_THIS_DIR / "src" / s)
+    return read(Path(from_) / s)
