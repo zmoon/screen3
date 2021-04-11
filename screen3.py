@@ -50,11 +50,6 @@ _THIS_DIR = Path(__file__).parent
 _SCREEN_EXE_PATH = None
 
 
-# TODO: on Jose's Mac it set to use the Win and failed to to multi-run stuff, but the checks did not activate! 
-# (didn't see erorrs on Jose's screen)
-# it just ran one case for meteo/downwash and gave no answers
-
-
 def download(*, extract_to="src"):
     """Download the SCREEN3 zip from EPA and extract.
 
@@ -84,6 +79,76 @@ def download(*, extract_to="src"):
         for info in z.infolist():
             with z.open(info) as zf, open(to / info.filename, "wb") as f:
                 f.write(zf.read())
+
+
+_SCREEN3A_PATCH = """
+386,397c386,401
+< $IF DEFINED (LAHEY)
+<       CALL DATE(RUNDAT)
+<       CALL TIME(RUNTIM)
+< $ELSE
+<       CALL GETDAT(IPTYR, IPTMON, IPTDAY)
+<       CALL GETTIM(IPTHR, IPTMIN, IPTSEC, IPTHUN)
+< C     Convert Year to Two Digits
+<       IPTYR = IPTYR - 100*INT(IPTYR/100)
+< C     Write Date and Time to Character Variables, RUNDAT & RUNTIM
+<       WRITE(RUNDAT,'(2(I2.2,1H/),I2.2)') IPTMON, IPTDAY, IPTYR
+<       WRITE(RUNTIM,'(2(I2.2,1H:),I2.2)') IPTHR, IPTMIN, IPTSEC
+< $ENDIF
+---
+> !$IF DEFINED (LAHEY)
+> !      CALL DATE(RUNDAT)
+> !      CALL TIME(RUNTIM)
+> !$ELSE
+> !      CALL GETDAT(IPTYR, IPTMON, IPTDAY)
+> !      CALL GETTIM(IPTHR, IPTMIN, IPTSEC, IPTHUN)
+> !C     Convert Year to Two Digits
+> !      IPTYR = IPTYR - 100*INT(IPTYR/100)
+> !C     Write Date and Time to Character Variables, RUNDAT & RUNTIM
+> !      WRITE(RUNDAT,'(2(I2.2,1H/),I2.2)') IPTMON, IPTDAY, IPTYR
+> !      WRITE(RUNTIM,'(2(I2.2,1H:),I2.2)') IPTHR, IPTMIN, IPTSEC
+> !$ENDIF
+> 
+> ! here for GNU (zm)
+>       call DATE_AND_TIME(DATE=RUNDAT, TIME=RUNTIM)
+> 
+""".lstrip()
+
+
+_DEPVAR_PATCH = """
+35c35
+< 
+\ No newline at end of file
+---
+> 
+""".lstrip()
+
+
+def build(*, src_path="src"):
+    """Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.
+    Requires `dos2unix` (for Linux/macOS), `patch`, and `gfortran` on PATH.
+    """
+    cwd = Path.cwd()
+    bld = Path(src_path)
+
+    os.chdir(bld)
+
+    # Fix line endings
+    if platform.system() != "Windows":
+        subprocess.run(['dos2unix', '*.FOR'])
+
+    # Patch code
+    with open("SCREEN3A.FOR.patch", "w") as f:
+        f.write(_SCREEN3A_PATCH)
+    with open("DEPVAR.INC.patch", "w") as f:
+        f.write(_DEPVAR_PATCH)
+    subprocess.run(['patch', 'SCREEN3A.FOR', 'SCREEN3A.FOR.patch'])
+    subprocess.run(['patch', 'DEPVAR.INC', 'DEPVAR.INC.patch'])
+
+    # Compile
+    subprocess.run(['gfortran', '-cpp', 'SCREEN3A.FOR', 'SCREEN3B.FOR', 'SCREEN3C.FOR', '-o', 'SCREEN3.exe'])
+
+    os.chdir(cwd)
 
 
 def set_exe_path(fp):
