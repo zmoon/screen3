@@ -9,8 +9,20 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        py: ['3.6', '3.7', '3.8']
+        include:
+          # Linux
+          - os: ubuntu-latest
+            py: '3.6'
+          - os: ubuntu-latest
+            py: '3.7'
+          - os: ubuntu-latest
+            py: '3.8'
+          # Windows
+          - os: windows-latest
+            py: '3.7'
+          # macOS
+          - os: macos-latest
+            py: '3.7'
 
     steps:
       - uses: actions/checkout@v2
@@ -38,6 +50,30 @@ jobs:
           cd ./src
           bash build.sh
           cd ../
+
+      # https://github.com/actions/virtual-environments/issues/2524#issuecomment-768061046
+      - name: Provide `gfortran` for macOS
+        if: contains(matrix.os, 'macos')
+        run: |
+          set -xe
+          sudo ln -s /usr/local/bin/gfortran-9 /usr/local/bin/gfortran 
+          sudo mkdir /usr/local/gfortran
+          sudo ln -s /usr/local/Cellar/gcc@9/9.3.0_1/lib/gcc/9 /usr/local/gfortran/lib
+          gfortran --version
+
+      - name: Build model (macOS)
+        if: contains(matrix.os, 'macos')
+        run: |
+          set -xe
+          brew install dos2unix
+          cd ./src
+          bash build.sh
+          cd ../
+
+      - name: Check screen3 install status
+        run: |
+          python -c "import screen3; print(screen3._THIS_DIR)"
+          python -c "import screen3; print(screen3._SCREEN_EXE_PATH)"
 
       - name: Run tests (pytest)
         run: pytest -v
