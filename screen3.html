@@ -108,6 +108,8 @@ Python 3.6+ is required</p>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.1.0&quot;</span>
+
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s2">&quot;run&quot;</span><span class="p">,</span>
     <span class="s2">&quot;read&quot;</span><span class="p">,</span>
@@ -468,7 +470,10 @@ Python 3.6+ is required</p>
     <span class="c1"># Check exe is file</span>
     <span class="n">exe</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">exe</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file. &quot;</span>
+            <span class="s2">&quot;Use the `exe` keyword argument of this function to specify the correct path.&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># Check for H changes without downwad</span>
     <span class="n">H_defaults</span> <span class="o">=</span> <span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)</span>  <span class="c1"># keep in sync with fn defaults</span>
@@ -912,7 +917,10 @@ Python 3.6+ is required</p>
     <span class="c1"># Check exe is file</span>
     <span class="n">exe</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">exe</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file. &quot;</span>
+            <span class="s2">&quot;Use the `exe` keyword argument of this function to specify the correct path.&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># Check for H changes without downwad</span>
     <span class="n">H_defaults</span> <span class="o">=</span> <span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)</span>  <span class="c1"># keep in sync with fn defaults</span>
