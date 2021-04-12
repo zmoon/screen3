@@ -385,7 +385,10 @@ def run(
     # Check exe is file
     exe = Path(exe)
     if not exe.is_file():
-        raise ValueError(f"{exe.absolute()!r} does not exist or is not a file.")
+        raise ValueError(
+            f"{exe.absolute()!r} does not exist or is not a file. "
+            "Use the `exe` keyword argument of this function to specify the correct path."
+        )
 
     # Check for H changes without downwad
     H_defaults = (30.0, 10.0, 20.0)  # keep in sync with fn defaults
