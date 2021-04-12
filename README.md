@@ -7,12 +7,20 @@
 
 ## Installation
 
+Stable:
+```
+pip install screen3
+```
+
+Latest:
 ```
 pip install git+https://github.com/zmoon/screen3
 ```
 
-This does not include the SCREEN3 model itself.
-To download it, you can use (within Python):
+### SCREEN3
+
+The `screen3` Python package does not include the SCREEN3 model itself.
+To download it (into `./src/`), you can use (within Python):
 ```python
 import screen3
 screen3.download()
@@ -22,8 +30,14 @@ or on the command line:
 python -c "import screen3; screen3.download()"
 ```
 
-On Windows, the above is sufficient to be able to use `screen3`.
-On non-Windows platforms, the model must be built from source.
+#### Windows
+
+On Windows, the above (download only) is sufficient to be able to use `screen3`,
+since EPA provides an executable compiled for Windows.
+
+#### Non-Windows
+
+On non-Windows platforms, the SCREEN3 model must be built from source.
 The `screen3.build` function, which requires `dos2unix`, `patch`, and `gfortran`, can be used:
 ```
 python -c "import screen3; screen3.build()"
@@ -35,5 +49,5 @@ python -c "import screen3; screen3.download(); screen3.build()"
 
 ## Examples
 
-`git clone` the repo, use Code > Download Zip (buttons), or use this [DownGit](https://github.com/MinhasKamal/DownGit) link:  
+To obtain the examples, `git clone` the repo, use Code > Download Zip (buttons), or use this [DownGit](https://github.com/MinhasKamal/DownGit) link:  
 <https://downgit.github.io/#/home?url=https://github.com/zmoon/screen3/tree/main/examples>
