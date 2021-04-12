@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 6.4.2" />
+    <meta name="generator" content="pdoc 6.4.3" />
     <title>screen3 API documentation</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%2244.5%202.5%2015%2015%22%3E%3Cpath%20d%3D%22M49.351%2021.041c-.233-.721-.546-2.408-.772-4.076-.042-.09-.067-.187-.046-.288-.166-1.347-.277-2.625-.241-3.351-1.378-1.008-2.271-2.586-2.271-4.362%200-.976.272-1.935.788-2.774.057-.094.122-.18.184-.268-.033-.167-.052-.339-.052-.516%200-1.477%201.202-2.679%202.679-2.679.791%200%201.496.352%201.987.9a6.3%206.3%200%200%201%201.001.029c.492-.564%201.207-.929%202.012-.929%201.477%200%202.679%201.202%202.679%202.679a2.65%202.65%200%200%201-.269%201.148c.383.747.595%201.572.595%202.41%200%202.311-1.507%204.29-3.635%205.107.037.699.147%202.27.423%203.294l.137.461c.156%202.136-4.612%205.166-5.199%203.215zm.127-4.919a4.78%204.78%200%200%200%20.775-.584c-.172-.115-.505-.254-.88-.378zm.331%202.302l.828-.502c-.202-.143-.576-.328-.984-.49zm.45%202.157l.701-.403c-.214-.115-.536-.249-.891-.376l.19.779zM49.13%204.141c0%20.152.123.276.276.276s.275-.124.275-.276-.123-.276-.276-.276-.275.124-.275.276zm.735-.389a1.15%201.15%200%200%201%20.314.783%201.16%201.16%200%200%201-1.162%201.162c-.457%200-.842-.27-1.032-.653-.026.117-.042.238-.042.362a1.68%201.68%200%200%200%201.679%201.679%201.68%201.68%200%200%200%201.679-1.679c0-.843-.626-1.535-1.436-1.654zm3.076%201.654a1.68%201.68%200%200%200%201.679%201.679%201.68%201.68%200%200%200%201.679-1.679c0-.037-.009-.072-.011-.109-.21.3-.541.508-.935.508a1.16%201.16%200%200%201-1.162-1.162%201.14%201.14%200%200%201%20.474-.912c-.015%200-.03-.005-.045-.005-.926.001-1.679.754-1.679%201.68zm1.861-1.265c0%20.152.123.276.276.276s.275-.124.275-.276-.123-.276-.276-.276-.275.124-.275.276zm1.823%204.823c0-.52-.103-1.035-.288-1.52-.466.394-1.06.64-1.717.64-1.144%200-2.116-.725-2.499-1.738-.383%201.012-1.355%201.738-2.499%201.738-.867%200-1.631-.421-2.121-1.062-.307.605-.478%201.267-.478%201.942%200%202.486%202.153%204.51%204.801%204.51s4.801-2.023%204.801-4.51zm-3.032%209.156l-.146-.492c-.276-1.02-.395-2.457-.444-3.268a6.11%206.11%200%200%201-1.18.115%206.01%206.01%200%200%201-2.536-.562l.006.175c.802.215%201.848.612%202.021%201.25.079.295-.021.601-.274.837l-.598.501c.667.304%201.243.698%201.311%201.179.02.144.022.507-.393.787l-.564.365c1.285.521%201.361.96%201.381%201.126.018.142.011.496-.427.746l-.854.489c.064-1.19%201.985-2.585%202.697-3.248zM49.34%209.925c0-.667%201-.667%201%200%200%20.653.818%201.205%201.787%201.205s1.787-.552%201.787-1.205c0-.667%201-.667%201%200%200%201.216-1.25%202.205-2.787%202.205s-2.787-.989-2.787-2.205zm-.887-7.633c-.093.077-.205.114-.317.114a.5.5%200%200%201-.318-.886L49.183.397a.5.5%200%200%201%20.703.068.5.5%200%200%201-.069.703zm7.661-.065c-.086%200-.173-.022-.253-.068l-1.523-.893c-.575-.337-.069-1.2.506-.863l1.523.892a.5.5%200%200%201%20.179.685c-.094.158-.261.247-.432.247z%22%20fill%3D%22%233bb300%22/%3E%3C/svg%3E"/>
 
@@ -35,13 +35,16 @@
                     <a class="function" href="#download">download</a>
             </li>
             <li>
+                    <a class="function" href="#build">build</a>
+            </li>
+            <li>
                     <a class="function" href="#load_example">load_example</a>
             </li>
             <li>
-                    <a class="function" href="#set_exe_path">set_exe_path</a>
+                    <a class="variable" href="#SCREEN_OUT_COL_UNITS_DICT">SCREEN_OUT_COL_UNITS_DICT</a>
             </li>
             <li>
-                    <a class="variable" href="#SCREEN_OUT_COL_UNITS_DICT">SCREEN_OUT_COL_UNITS_DICT</a>
+                    <a class="variable" href="#DEFAULT_SRC_DIR">DEFAULT_SRC_DIR</a>
             </li>
     </ul>
 
@@ -96,7 +99,6 @@ Python 3.6+ is required</p>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># TODO: type annotations for the main user-facing fns?</span>
 
-<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">platform</span>
@@ -104,19 +106,17 @@ Python 3.6+ is required</p>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s2">&quot;run&quot;</span><span class="p">,</span>
     <span class="s2">&quot;read&quot;</span><span class="p">,</span>
     <span class="s2">&quot;plot&quot;</span><span class="p">,</span>
     <span class="s2">&quot;download&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;build&quot;</span><span class="p">,</span>
     <span class="s2">&quot;load_example&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;set_exe_path&quot;</span><span class="p">,</span>
     <span class="s2">&quot;SCREEN_OUT_COL_UNITS_DICT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DEFAULT_SRC_DIR&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -127,26 +127,29 @@ Python 3.6+ is required</p>
 
 
 <span class="n">_THIS_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
-<span class="n">_SCREEN_EXE_PATH</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<span class="c1"># TODO: on Jose&#39;s Mac it set to use the Win and failed to to multi-run stuff, but the checks did not activate! </span>
-<span class="c1"># (didn&#39;t see erorrs on Jose&#39;s screen)</span>
-<span class="c1"># it just ran one case for meteo/downwash and gave no answers</span>
+<span class="c1"># DEFAULT_SRC_DIR = Path.home() / &quot;.local/screen3/src&quot;</span>
+<span class="n">DEFAULT_SRC_DIR</span> <span class="o">=</span> <span class="s2">&quot;./src&quot;</span>
+<span class="sd">&quot;&quot;&quot;Default directory in which to place the SCREEN3 source code from EPA.&quot;&quot;&quot;</span>
+
+<span class="n">_DEFAULT_EXE_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DEFAULT_SRC_DIR</span><span class="si">}</span><span class="s2">/SCREEN3.exe&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">extract_to</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Download the SCREEN3 zip from EPA and extract.</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">DEFAULT_SRC_DIR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Download the SCREEN3 zip from EPA and extract to directory `src`.</span>
 
-<span class="sd">    If it fails, download it some other way.</span>
+<span class="sd">    If it fails, you can always download it yourself some other way.</span>
 
 <span class="sd">    &lt;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&gt;</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    extract_to : str, pathlib.Path</span>
-<span class="sd">        Where to extract the files to, relative to this file (the `screen3` python module).</span>
-
+<span class="sd">    src : path-like</span>
+<span class="sd">        Where to extract the files to.</span>
+<span class="sd">        .. note::</span>
+<span class="sd">           As long as this isn&#39;t modified, the `src`/`exe` keyword doesn&#39;t need to be changed</span>
+<span class="sd">           for `build`, `run`, or `load_example`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">io</span>
     <span class="kn">import</span> <span class="nn">zipfile</span>
@@ -156,78 +159,100 @@ Python 3.6+ is required</p>
 
     <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&quot;</span>
 
-    <span class="n">to</span> <span class="o">=</span> <span class="n">_THIS_DIR</span> <span class="o">/</span> <span class="n">extract_to</span>
-    <span class="n">to</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">extract_to</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="n">extract_to</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># TODO: get it working without having to disable certificate verification</span>
     <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">))</span> <span class="k">as</span> <span class="n">z</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">z</span><span class="o">.</span><span class="n">infolist</span><span class="p">():</span>
-            <span class="k">with</span> <span class="n">z</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="k">as</span> <span class="n">zf</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">to</span> <span class="o">/</span> <span class="n">info</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">z</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="k">as</span> <span class="n">zf</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">extract_to</span> <span class="o">/</span> <span class="n">info</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 
 
-<span class="k">def</span> <span class="nf">set_exe_path</span><span class="p">(</span><span class="n">fp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Manually configure the path of the `SCREEN3.exe` to use when invoking `run`.</span>
+<span class="n">_SCREEN3A_PATCH</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">386,397c386,401</span>
+<span class="s2">&lt; $IF DEFINED (LAHEY)</span>
+<span class="s2">&lt;       CALL DATE(RUNDAT)</span>
+<span class="s2">&lt;       CALL TIME(RUNTIM)</span>
+<span class="s2">&lt; $ELSE</span>
+<span class="s2">&lt;       CALL GETDAT(IPTYR, IPTMON, IPTDAY)</span>
+<span class="s2">&lt;       CALL GETTIM(IPTHR, IPTMIN, IPTSEC, IPTHUN)</span>
+<span class="s2">&lt; C     Convert Year to Two Digits</span>
+<span class="s2">&lt;       IPTYR = IPTYR - 100*INT(IPTYR/100)</span>
+<span class="s2">&lt; C     Write Date and Time to Character Variables, RUNDAT &amp; RUNTIM</span>
+<span class="s2">&lt;       WRITE(RUNDAT,&#39;(2(I2.2,1H/),I2.2)&#39;) IPTMON, IPTDAY, IPTYR</span>
+<span class="s2">&lt;       WRITE(RUNTIM,&#39;(2(I2.2,1H:),I2.2)&#39;) IPTHR, IPTMIN, IPTSEC</span>
+<span class="s2">&lt; $ENDIF</span>
+<span class="s2">---</span>
+<span class="s2">&gt; !$IF DEFINED (LAHEY)</span>
+<span class="s2">&gt; !      CALL DATE(RUNDAT)</span>
+<span class="s2">&gt; !      CALL TIME(RUNTIM)</span>
+<span class="s2">&gt; !$ELSE</span>
+<span class="s2">&gt; !      CALL GETDAT(IPTYR, IPTMON, IPTDAY)</span>
+<span class="s2">&gt; !      CALL GETTIM(IPTHR, IPTMIN, IPTSEC, IPTHUN)</span>
+<span class="s2">&gt; !C     Convert Year to Two Digits</span>
+<span class="s2">&gt; !      IPTYR = IPTYR - 100*INT(IPTYR/100)</span>
+<span class="s2">&gt; !C     Write Date and Time to Character Variables, RUNDAT &amp; RUNTIM</span>
+<span class="s2">&gt; !      WRITE(RUNDAT,&#39;(2(I2.2,1H/),I2.2)&#39;) IPTMON, IPTDAY, IPTYR</span>
+<span class="s2">&gt; !      WRITE(RUNTIM,&#39;(2(I2.2,1H:),I2.2)&#39;) IPTHR, IPTMIN, IPTSEC</span>
+<span class="s2">&gt; !$ENDIF</span>
+<span class="s2">&gt; </span>
+<span class="s2">&gt; ! here for GNU (zm)</span>
+<span class="s2">&gt;       call DATE_AND_TIME(DATE=RUNDAT, TIME=RUNTIM)</span>
+<span class="s2">&gt; </span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+
+
+<span class="n">_DEPVAR_PATCH</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">35c35</span>
+<span class="s2">&lt; </span>
+<span class="s2">\ No newline at end of file</span>
+<span class="s2">---</span>
+<span class="s2">&gt; </span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">DEFAULT_SRC_DIR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.</span>
 <span class="sd">    </span>
+<span class="sd">    .. note::</span>
+<span class="sd">       Requires `dos2unix` (for Linux/macOS), `patch`, and `gfortran` on PATH.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    fp : str, pathlib.Path</span>
-<span class="sd">        File path (absolute or relative) to the SCREEN3 executable,</span>
-<span class="sd">        e.g., `&#39;./screen3/SCREEN3.exe&#39;`.</span>
+<span class="sd">    src : path-like</span>
+<span class="sd">        Source directory, containing `SCREEN3A.FOR` etc., e.g., downloaded using `screen3.download`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">_SCREEN_EXE_PATH</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+    <span class="n">cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+    <span class="n">bld</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="n">_SCREEN_EXE_PATH</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The path </span><span class="si">{</span><span class="n">fp</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file.&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">bld</span><span class="p">)</span>
 
+    <span class="n">srcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SCREEN3A.FOR&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3B.FOR&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3C.FOR&#39;</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">_try_to_set_screen_exe_path</span><span class="p">():</span>
-    <span class="n">search_in</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
-    <span class="n">set_msg</span> <span class="o">=</span> <span class="s2">&quot;Use `screen3.set_screen_exe_path` to set the path of the SCREEN3 executable to use.&quot;</span>
-    <span class="k">if</span> <span class="n">_SCREEN_EXE_PATH</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># initial load of module</span>
-        <span class="c1"># First try the standard location</span>
-        <span class="n">std_loc</span> <span class="o">=</span> <span class="n">_THIS_DIR</span> <span class="o">/</span> <span class="s1">&#39;src/SCREEN3.exe&#39;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">set_exe_path</span><span class="p">(</span><span class="n">std_loc</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;the executable was not found in the expected location </span><span class="si">{</span><span class="n">std_loc</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;We will search for executables matching the pattern &#39;SCREEN*.exe&#39;.&quot;</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="c1"># Search for an exe</span>
-            <span class="n">exe_paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">search_in</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s1">&#39;SCREEN*.exe&#39;</span><span class="p">))</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exe_paths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="c1"># Warn and don&#39;t set if multiple found</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;multiple executables were found: &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">search_in</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">exe_paths</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span> <span class="o">+</span>
-                    <span class="n">set_msg</span>
-                    <span class="p">,</span>
-                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">exe_paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="c1"># Set if only one was found</span>
-                <span class="n">set_exe_path</span><span class="p">(</span><span class="n">exe_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Warn if none found</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;no &#39;SCREEN*.exe&#39; could be found in </span><span class="si">{</span><span class="n">search_in</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">. &quot;</span> <span class="o">+</span> <span class="n">set_msg</span><span class="p">,</span>
-                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                <span class="p">)</span>
+    <span class="c1"># Fix line endings</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;dos2unix&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">srcs</span><span class="p">)</span>
 
+    <span class="c1"># Patch code</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;SCREEN3A.FOR.patch&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_SCREEN3A_PATCH</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;DEPVAR.INC.patch&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_DEPVAR_PATCH</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;patch&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3A.FOR&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3A.FOR.patch&#39;</span><span class="p">])</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;patch&#39;</span><span class="p">,</span> <span class="s1">&#39;DEPVAR.INC&#39;</span><span class="p">,</span> <span class="s1">&#39;DEPVAR.INC.patch&#39;</span><span class="p">])</span>
 
-<span class="n">_try_to_set_screen_exe_path</span><span class="p">()</span>
+    <span class="c1"># Compile</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;gfortran&#39;</span><span class="p">,</span> <span class="s1">&#39;-cpp&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">srcs</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3.exe&#39;</span><span class="p">])</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span>
 
 
 <span class="c1"># note that U10M becomes UHANE in non-regulatory mode</span>
 <span class="n">SCREEN_OUT_COL_NAMES</span> <span class="o">=</span> <span class="s1">&#39;DIST CONC STAB U10M USTK MIX_HT PLUME_HT SIGMA_Y SIGMA_Z DWASH&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 <span class="n">SCREEN_OUT_COL_UNITS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;μg/m$^3$&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;m/s&#39;</span><span class="p">,</span> <span class="s1">&#39;m/s&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
 <span class="n">SCREEN_OUT_COL_UNITS_DICT</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">SCREEN_OUT_COL_NAMES</span><span class="p">,</span> <span class="n">SCREEN_OUT_COL_UNITS</span><span class="p">))</span>
-<span class="sd">&quot;&quot;&quot;Dict of units for the outputs, e.g., `&#39;DIST&#39;: &#39;m&#39;`.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Dict of units for the outputs to be used in the plots. For example, `&#39;DIST&#39;: &#39;m&#39;`.&quot;&quot;&quot;</span>
 
 
 <span class="k">def</span> <span class="nf">read</span><span class="p">(</span>
@@ -262,6 +287,10 @@ Python 3.6+ is required</p>
 <span class="sd">        * `&#39;SCREEN_DAT&#39;`: (str) the SCREEN3 DAT (copied inputs) file as a string</span>
 <span class="sd">        * `&#39;run_inputs&#39;`: (dict) copy of the inputs to the the `run` function used to generated this dataset (if applicable)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+    
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
     <span class="k">if</span> <span class="n">run_inputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">run_inputs</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -357,6 +386,7 @@ Python 3.6+ is required</p>
     <span class="n">HL</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>  <span class="c1"># MINIMUM HORIZ. BUILDING DIMENSION (M)</span>
     <span class="n">HW</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>  <span class="c1"># MAXIMUM HORIZ. BUILDING DIMENSION (M)</span>
     <span class="c1">#</span>
+    <span class="n">exe</span><span class="o">=</span><span class="n">_DEFAULT_EXE_PATH</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create SCREEN3 input file, feed it to the executable, and load the result.</span>
 
@@ -404,6 +434,19 @@ Python 3.6+ is required</p>
 <span class="sd">        Minimum horizontal building dimension (m).</span>
 <span class="sd">    HW : float</span>
 <span class="sd">        Maximum horizontal building dimension (m).</span>
+<span class="sd">    exe : path-like</span>
+<span class="sd">        Path to the executable to use, e.g., as a `str` or `pathlib.Path`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Change parameters.</span>
+<span class="sd">    ```python</span>
+<span class="sd">    screen3.run(TA=310, WS=2)</span>
+<span class="sd">    ```</span>
+<span class="sd">    Specify executable to use if yours isn&#39;t in the default place (`./src/SCREEN3.exe`).</span>
+<span class="sd">    ```python</span>
+<span class="sd">    screen3.run(exe=&quot;/path/to/executable&quot;)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -416,20 +459,16 @@ Python 3.6+ is required</p>
 <span class="sd">    Upon running, it produces an output file called `SCREEN.OUT`.</span>
 <span class="sd">    Both of these will be in the source directory, where the executable resides.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+
     <span class="n">inputs</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>  <span class="c1"># collect inputs for saving in the df</span>
 
     <span class="c1"># TODO: should validate wind speed?</span>
 
-    <span class="c1"># Confirm exe path set</span>
-    <span class="k">if</span> <span class="n">_SCREEN_EXE_PATH</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_SCREEN_EXE_PATH</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Before running the location of the executable must be set using `screen3.set_exe_path`.&quot;</span><span class="p">)</span>
-
     <span class="c1"># Check exe is file</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{fp!r}</span><span class="s2"> does not exist or is not a file.&quot;</span>
-            <span class="s2">&quot; Use `screen3.set_exe_path` to set it.&quot;</span>
-        <span class="p">)</span>
+    <span class="n">exe</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exe</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Check for H changes without downwad</span>
     <span class="n">H_defaults</span> <span class="o">=</span> <span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)</span>  <span class="c1"># keep in sync with fn defaults</span>
@@ -525,16 +564,16 @@ Python 3.6+ is required</p>
 
     <span class="n">t_utc_run</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-    <span class="n">exe</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+    <span class="n">s_exe</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
     <span class="n">cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
-    <span class="n">src_dir</span> <span class="o">=</span> <span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">parent</span>
+    <span class="n">src_dir</span> <span class="o">=</span> <span class="n">exe</span><span class="o">.</span><span class="n">parent</span>
 
     <span class="c1"># Move to src location so that the output file will be saved there</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">src_dir</span><span class="p">)</span>
 
     <span class="c1"># Invoke executable</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">exe</span><span class="p">],</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">s_exe</span><span class="p">],</span>
         <span class="nb">input</span><span class="o">=</span><span class="n">dat_text</span><span class="p">,</span>
         <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># equivalent to `text=True`, but that was added in 3.7</span>
         <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -554,6 +593,8 @@ Python 3.6+ is required</p>
 
 <span class="k">def</span> <span class="nf">_add_units</span><span class="p">(</span><span class="n">x_units</span><span class="p">,</span> <span class="n">y_units</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Add units and make room.&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
     <span class="n">xl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span>
@@ -607,6 +648,10 @@ Python 3.6+ is required</p>
 <span class="sd">        Passed on to the relevant pyplot plotting function,</span>
 <span class="sd">        e.g., `ax.plot`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
     <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -708,9 +753,15 @@ Python 3.6+ is required</p>
     <span class="k">return</span> <span class="n">fig</span>
 
 
-<span class="k">def</span> <span class="nf">load_example</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Load one of the examples included with the screen3.zip download,</span>
-<span class="sd">    such as `&#39;EXAMPLE.OUT&#39;`.</span>
+<span class="k">def</span> <span class="nf">load_example</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">DEFAULT_SRC_DIR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load one of the examples included with the `screen3.zip` download,</span>
+<span class="sd">    such as `&#39;EXAMPLE.OUT&#39;` from SCREEN3 source directory `src`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    ```python</span>
+<span class="sd">    screen3.load_example(&quot;EXAMPLE.OUT&quot;)</span>
+<span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">valid_examples</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;EXAMPLE.OUT&quot;</span><span class="p">,</span> <span class="s2">&quot;examplenew.out&quot;</span><span class="p">,</span> <span class="s2">&quot;examplnrnew.out&quot;</span><span class="p">,</span>
@@ -719,7 +770,7 @@ Python 3.6+ is required</p>
     <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_examples</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;invalid example file name. Valid options are: </span><span class="si">{</span><span class="n">valid_examples</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">_THIS_DIR</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -748,7 +799,8 @@ Python 3.6+ is required</p>
     DOWNWASH_YN=&#39;N&#39;,
     HB=30.0,
     HL=10.0,
-    HW=20.0
+    HW=20.0,
+    exe=&#39;./src/SCREEN3.exe&#39;
 )</span>:
     </div>
 
@@ -778,6 +830,7 @@ Python 3.6+ is required</p>
     <span class="n">HL</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>  <span class="c1"># MINIMUM HORIZ. BUILDING DIMENSION (M)</span>
     <span class="n">HW</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>  <span class="c1"># MAXIMUM HORIZ. BUILDING DIMENSION (M)</span>
     <span class="c1">#</span>
+    <span class="n">exe</span><span class="o">=</span><span class="n">_DEFAULT_EXE_PATH</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create SCREEN3 input file, feed it to the executable, and load the result.</span>
 
@@ -825,6 +878,19 @@ Python 3.6+ is required</p>
 <span class="sd">        Minimum horizontal building dimension (m).</span>
 <span class="sd">    HW : float</span>
 <span class="sd">        Maximum horizontal building dimension (m).</span>
+<span class="sd">    exe : path-like</span>
+<span class="sd">        Path to the executable to use, e.g., as a `str` or `pathlib.Path`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Change parameters.</span>
+<span class="sd">    ```python</span>
+<span class="sd">    screen3.run(TA=310, WS=2)</span>
+<span class="sd">    ```</span>
+<span class="sd">    Specify executable to use if yours isn&#39;t in the default place (`./src/SCREEN3.exe`).</span>
+<span class="sd">    ```python</span>
+<span class="sd">    screen3.run(exe=&quot;/path/to/executable&quot;)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -837,20 +903,16 @@ Python 3.6+ is required</p>
 <span class="sd">    Upon running, it produces an output file called `SCREEN.OUT`.</span>
 <span class="sd">    Both of these will be in the source directory, where the executable resides.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+
     <span class="n">inputs</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>  <span class="c1"># collect inputs for saving in the df</span>
 
     <span class="c1"># TODO: should validate wind speed?</span>
 
-    <span class="c1"># Confirm exe path set</span>
-    <span class="k">if</span> <span class="n">_SCREEN_EXE_PATH</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_SCREEN_EXE_PATH</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Before running the location of the executable must be set using `screen3.set_exe_path`.&quot;</span><span class="p">)</span>
-
     <span class="c1"># Check exe is file</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{fp!r}</span><span class="s2"> does not exist or is not a file.&quot;</span>
-            <span class="s2">&quot; Use `screen3.set_exe_path` to set it.&quot;</span>
-        <span class="p">)</span>
+    <span class="n">exe</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exe</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Check for H changes without downwad</span>
     <span class="n">H_defaults</span> <span class="o">=</span> <span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)</span>  <span class="c1"># keep in sync with fn defaults</span>
@@ -946,16 +1008,16 @@ Python 3.6+ is required</p>
 
     <span class="n">t_utc_run</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-    <span class="n">exe</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+    <span class="n">s_exe</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">exe</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
     <span class="n">cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
-    <span class="n">src_dir</span> <span class="o">=</span> <span class="n">_SCREEN_EXE_PATH</span><span class="o">.</span><span class="n">parent</span>
+    <span class="n">src_dir</span> <span class="o">=</span> <span class="n">exe</span><span class="o">.</span><span class="n">parent</span>
 
     <span class="c1"># Move to src location so that the output file will be saved there</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">src_dir</span><span class="p">)</span>
 
     <span class="c1"># Invoke executable</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">exe</span><span class="p">],</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">s_exe</span><span class="p">],</span>
         <span class="nb">input</span><span class="o">=</span><span class="n">dat_text</span><span class="p">,</span>
         <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># equivalent to `text=True`, but that was added in 3.7</span>
         <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1024,7 +1086,21 @@ Building height (m).</li>
 Minimum horizontal building dimension (m).</li>
 <li><strong>HW</strong> (float):
 Maximum horizontal building dimension (m).</li>
+<li><strong>exe</strong> (path-like):
+Path to the executable to use, e.g., as a <code>str</code> or <code>pathlib.Path</code>.</li>
 </ul>
+
+<h6 id="examples">Examples</h6>
+
+<p>Change parameters.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="n">screen3</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">TA</span><span class="o">=</span><span class="mi">310</span><span class="p">,</span> <span class="n">WS</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Specify executable to use if yours isn't in the default place (<code>./src/SCREEN3.exe</code>).</p>
+
+<div class="codehilite"><pre><span></span><code><span class="n">screen3</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">exe</span><span class="o">=</span><span class="s2">&quot;/path/to/executable&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 <h6 id="returns">Returns</h6>
 
@@ -1084,6 +1160,10 @@ Both of these will be in the source directory, where the executable resides.</p>
 <span class="sd">        * `&#39;SCREEN_DAT&#39;`: (str) the SCREEN3 DAT (copied inputs) file as a string</span>
 <span class="sd">        * `&#39;run_inputs&#39;`: (dict) copy of the inputs to the the `run` function used to generated this dataset (if applicable)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+    
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
     <span class="k">if</span> <span class="n">run_inputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">run_inputs</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -1256,6 +1336,10 @@ SCREEN3 output dataset.</p>
 <span class="sd">        Passed on to the relevant pyplot plotting function,</span>
 <span class="sd">        e.g., `ax.plot`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
     <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">yvals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1401,23 +1485,25 @@ e.g., <code>ax.plot</code>.</li>
 
         
             <span class="def">def</span>
-            <span class="name">download</span><span class="signature">(*, extract_to=&#39;src&#39;)</span>:
+            <span class="name">download</span><span class="signature">(*, src=&#39;./src&#39;)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">extract_to</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Download the SCREEN3 zip from EPA and extract.</span>
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">DEFAULT_SRC_DIR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Download the SCREEN3 zip from EPA and extract to directory `src`.</span>
 
-<span class="sd">    If it fails, download it some other way.</span>
+<span class="sd">    If it fails, you can always download it yourself some other way.</span>
 
 <span class="sd">    &lt;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&gt;</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    extract_to : str, pathlib.Path</span>
-<span class="sd">        Where to extract the files to, relative to this file (the `screen3` python module).</span>
-
+<span class="sd">    src : path-like</span>
+<span class="sd">        Where to extract the files to.</span>
+<span class="sd">        .. note::</span>
+<span class="sd">           As long as this isn&#39;t modified, the `src`/`exe` keyword doesn&#39;t need to be changed</span>
+<span class="sd">           for `build`, `run`, or `load_example`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">io</span>
     <span class="kn">import</span> <span class="nn">zipfile</span>
@@ -1427,29 +1513,95 @@ e.g., <code>ax.plot</code>.</li>
 
     <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip&quot;</span>
 
-    <span class="n">to</span> <span class="o">=</span> <span class="n">_THIS_DIR</span> <span class="o">/</span> <span class="n">extract_to</span>
-    <span class="n">to</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">extract_to</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="n">extract_to</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     
     <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># TODO: get it working without having to disable certificate verification</span>
     <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">))</span> <span class="k">as</span> <span class="n">z</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">z</span><span class="o">.</span><span class="n">infolist</span><span class="p">():</span>
-            <span class="k">with</span> <span class="n">z</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="k">as</span> <span class="n">zf</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">to</span> <span class="o">/</span> <span class="n">info</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">z</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="k">as</span> <span class="n">zf</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">extract_to</span> <span class="o">/</span> <span class="n">info</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Download the SCREEN3 zip from EPA and extract.</p>
+            <div class="docstring"><p>Download the SCREEN3 zip from EPA and extract to directory <code>src</code>.</p>
 
-<p>If it fails, download it some other way.</p>
+<p>If it fails, you can always download it yourself some other way.</p>
 
 <p><a href="https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip">https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip</a></p>
 
 <h6 id="parameters">Parameters</h6>
 
 <ul>
-<li><strong>extract_to</strong> (str, pathlib.Path):
-Where to extract the files to, relative to this file (the <code><a href="">screen3</a></code> python module).</li>
+<li><strong>src</strong> (path-like):
+Where to extract the files to.
+<em>Note:</em>
+As long as this isn't modified, the <code>src</code>/<code>exe</code> keyword doesn't need to be changed
+for <code><a href="#build">build</a></code>, <code><a href="#run">run</a></code>, or <code><a href="#load_example">load_example</a></code>.</li>
+</ul>
+</div>
+
+
+                </section>
+                <section id="build">
+                            <div class="attr function"><a class="headerlink" href="#build">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">build</span><span class="signature">(*, src=&#39;./src&#39;)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">DEFAULT_SRC_DIR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.</span>
+<span class="sd">    </span>
+<span class="sd">    .. note::</span>
+<span class="sd">       Requires `dos2unix` (for Linux/macOS), `patch`, and `gfortran` on PATH.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    src : path-like</span>
+<span class="sd">        Source directory, containing `SCREEN3A.FOR` etc., e.g., downloaded using `screen3.download`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cwd</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+    <span class="n">bld</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">bld</span><span class="p">)</span>
+
+    <span class="n">srcs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SCREEN3A.FOR&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3B.FOR&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3C.FOR&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Fix line endings</span>
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;dos2unix&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">srcs</span><span class="p">)</span>
+
+    <span class="c1"># Patch code</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;SCREEN3A.FOR.patch&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_SCREEN3A_PATCH</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;DEPVAR.INC.patch&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_DEPVAR_PATCH</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;patch&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3A.FOR&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3A.FOR.patch&#39;</span><span class="p">])</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;patch&#39;</span><span class="p">,</span> <span class="s1">&#39;DEPVAR.INC&#39;</span><span class="p">,</span> <span class="s1">&#39;DEPVAR.INC.patch&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Compile</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;gfortran&#39;</span><span class="p">,</span> <span class="s1">&#39;-cpp&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">srcs</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;SCREEN3.exe&#39;</span><span class="p">])</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.</p>
+
+<p><em>Note:</em>
+Requires <code>dos2unix</code> (for Linux/macOS), <code>patch</code>, and <code>gfortran</code> on PATH.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>src</strong> (path-like):
+Source directory, containing <code>SCREEN3A.FOR</code> etc., e.g., downloaded using <code><a href="#download">screen3.download</a></code>.</li>
 </ul>
 </div>
 
@@ -1460,14 +1612,20 @@ Where to extract the files to, relative to this file (the <code><a href="">scree
 
         
             <span class="def">def</span>
-            <span class="name">load_example</span><span class="signature">(s)</span>:
+            <span class="name">load_example</span><span class="signature">(s, *, src=&#39;./src&#39;)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">load_example</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Load one of the examples included with the screen3.zip download,</span>
-<span class="sd">    such as `&#39;EXAMPLE.OUT&#39;`.</span>
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">load_example</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">DEFAULT_SRC_DIR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load one of the examples included with the `screen3.zip` download,</span>
+<span class="sd">    such as `&#39;EXAMPLE.OUT&#39;` from SCREEN3 source directory `src`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    ```python</span>
+<span class="sd">    screen3.load_example(&quot;EXAMPLE.OUT&quot;)</span>
+<span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">valid_examples</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;EXAMPLE.OUT&quot;</span><span class="p">,</span> <span class="s2">&quot;examplenew.out&quot;</span><span class="p">,</span> <span class="s2">&quot;examplnrnew.out&quot;</span><span class="p">,</span>
@@ -1476,56 +1634,18 @@ Where to extract the files to, relative to this file (the <code><a href="">scree
     <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_examples</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;invalid example file name. Valid options are: </span><span class="si">{</span><span class="n">valid_examples</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">_THIS_DIR</span> <span class="o">/</span> <span class="s2">&quot;src&quot;</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Load one of the examples included with the <a href="#zip">screen3.zip</a> download,
-such as <code>'EXAMPLE.OUT'</code>.</p>
-</div>
+            <div class="docstring"><p>Load one of the examples included with the <code><a href="#zip">screen3.zip</a></code> download,
+such as <code>'EXAMPLE.OUT'</code> from SCREEN3 source directory <code>src</code>.</p>
 
+<h6 id="examples">Examples</h6>
 
-                </section>
-                <section id="set_exe_path">
-                            <div class="attr function"><a class="headerlink" href="#set_exe_path">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">set_exe_path</span><span class="signature">(fp)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_exe_path</span><span class="p">(</span><span class="n">fp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Manually configure the path of the `SCREEN3.exe` to use when invoking `run`.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    fp : str, pathlib.Path</span>
-<span class="sd">        File path (absolute or relative) to the SCREEN3 executable,</span>
-<span class="sd">        e.g., `&#39;./screen3/SCREEN3.exe&#39;`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">_SCREEN_EXE_PATH</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="n">_SCREEN_EXE_PATH</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The path </span><span class="si">{</span><span class="n">fp</span><span class="si">!r}</span><span class="s2"> does not exist or is not a file.&quot;</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Manually configure the path of the <code>SCREEN3.exe</code> to use when invoking <code><a href="#run">run</a></code>.</p>
-
-<h6 id="parameters">Parameters</h6>
-
-<ul>
-<li><strong>fp</strong> (str, pathlib.Path):
-File path (absolute or relative) to the SCREEN3 executable,
-e.g., <code>'./screen3/SCREEN3.exe'</code>.</li>
-</ul>
+<div class="codehilite"><pre><span></span><code><span class="n">screen3</span><span class="o">.</span><span class="n">load_example</span><span class="p">(</span><span class="s2">&quot;EXAMPLE.OUT&quot;</span><span class="p">)</span>
+</code></pre></div>
 </div>
 
 
@@ -1536,7 +1656,18 @@ e.g., <code>'./screen3/SCREEN3.exe'</code>.</li>
         <span class="name">SCREEN_OUT_COL_UNITS_DICT</span><span class="default_value"> = {&#39;DIST&#39;: &#39;m&#39;, &#39;CONC&#39;: &#39;μg/m$^3$&#39;, &#39;STAB&#39;: &#39;&#39;, &#39;U10M&#39;: &#39;m/s&#39;, &#39;USTK&#39;: &#39;m/s&#39;, &#39;MIX_HT&#39;: &#39;m&#39;, &#39;PLUME_HT&#39;: &#39;m&#39;, &#39;SIGMA_Y&#39;: &#39;m&#39;, &#39;SIGMA_Z&#39;: &#39;m&#39;, &#39;DWASH&#39;: &#39;&#39;}</span>
     </div>
 
-            <div class="docstring"><p>Dict of units for the outputs, e.g., <code>'DIST': 'm'</code>.</p>
+            <div class="docstring"><p>Dict of units for the outputs to be used in the plots. For example, <code>'DIST': 'm'</code>.</p>
+</div>
+
+
+                </section>
+                <section id="DEFAULT_SRC_DIR">
+                                <div class="attr variable"><a class="headerlink" href="#DEFAULT_SRC_DIR">#&nbsp;&nbsp</a>
+
+        <span class="name">DEFAULT_SRC_DIR</span><span class="default_value"> = &#39;./src&#39;</span>
+    </div>
+
+            <div class="docstring"><p>Default directory in which to place the SCREEN3 source code from EPA.</p>
 </div>
 
 
