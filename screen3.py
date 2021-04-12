@@ -32,7 +32,6 @@ __all__ = (
     "download",
     "build",
     "load_example",
-    "set_exe_path",
     "SCREEN_OUT_COL_UNITS_DICT",
     "DEFAULT_SRC_DIR",
 )
@@ -45,12 +44,13 @@ if not (sys.version_info.major >= 3 and sys.version_info.minor >= 6):
 
 
 _THIS_DIR = Path(__file__).parent
-_SCREEN_EXE_PATH = None
 
 
 # DEFAULT_SRC_DIR = Path.home() / ".local/screen3/src"
 DEFAULT_SRC_DIR = "./src"
 """Default directory in which to place the SCREEN3 source code from EPA."""
+
+_DEFAULT_EXE_PATH = f"{DEFAULT_SRC_DIR}/SCREEN3.exe"
 
 
 def download(*, src=DEFAULT_SRC_DIR):
@@ -64,6 +64,9 @@ def download(*, src=DEFAULT_SRC_DIR):
     ----------
     src : path-like
         Where to extract the files to.
+        .. note::
+           As long as this isn't modified, the `src`/`exe` keyword doesn't need to be changed
+           for `build`, `run`, or `load_example`.
     """
     import io
     import zipfile
@@ -138,13 +141,15 @@ def build(*, src=DEFAULT_SRC_DIR):
         Source directory, containing `SCREEN3A.FOR` etc., e.g., downloaded using `screen3.download`.
     """
     cwd = Path.cwd()
-    bld = Path(src_path)
+    bld = Path(src)
 
     os.chdir(bld)
 
+    srcs = ['SCREEN3A.FOR', 'SCREEN3B.FOR', 'SCREEN3C.FOR']
+
     # Fix line endings
     if platform.system() != "Windows":
-        subprocess.run(['dos2unix', '*.FOR'])
+        subprocess.run(['dos2unix'] + srcs)
 
     # Patch code
     with open("SCREEN3A.FOR.patch", "w") as f:
@@ -155,70 +160,16 @@ def build(*, src=DEFAULT_SRC_DIR):
     subprocess.run(['patch', 'DEPVAR.INC', 'DEPVAR.INC.patch'])
 
     # Compile
-    subprocess.run(['gfortran', '-cpp', 'SCREEN3A.FOR', 'SCREEN3B.FOR', 'SCREEN3C.FOR', '-o', 'SCREEN3.exe'])
+    subprocess.run(['gfortran', '-cpp'] + srcs + ['-o', 'SCREEN3.exe'])
 
     os.chdir(cwd)
-
-
-def set_exe_path(fp):
-    """Manually configure the path of the `SCREEN3.exe` to use when invoking `run`.
-    
-    Parameters
-    ----------
-    fp : str, pathlib.Path
-        File path (absolute or relative) to the SCREEN3 executable,
-        e.g., `'./screen3/SCREEN3.exe'`.
-    """
-    global _SCREEN_EXE_PATH
-    p = Path(fp)
-
-    if p.is_file():
-        _SCREEN_EXE_PATH = p.absolute()
-    else:
-        raise ValueError(f"The path {fp!r} does not exist or is not a file.")
-
-
-def _try_to_set_screen_exe_path():
-    search_in = Path.cwd()
-    set_msg = "Use `screen3.set_screen_exe_path` to set the path of the SCREEN3 executable to use."
-    if _SCREEN_EXE_PATH is None:  # initial load of module
-        # First try the standard location
-        std_loc = DEFAULT_SRC_DIR / 'SCREEN3.exe'
-        try:
-            set_exe_path(std_loc)
-        except ValueError:
-            warnings.warn(
-                f"the executable was not found in the expected location {std_loc.as_posix()}. "
-                "We will search for executables matching the pattern 'SCREEN*.exe'.",
-                stacklevel=2,
-            )
-            # Search for an exe
-            exe_paths = list(search_in.rglob('SCREEN*.exe'))
-            if len(exe_paths) > 1:
-                # Warn and don't set if multiple found
-                warnings.warn(
-                    f"multiple executables were found: "
-                    f"{', '.join(sp.relative_to(search_in).as_posix() for sp in exe_paths)}. " +
-                    set_msg
-                    ,
-                    stacklevel=2,
-                )
-            elif len(exe_paths) == 1:
-                # Set if only one was found
-                set_exe_path(exe_paths[0])
-            else:
-                # Warn if none found
-                warnings.warn(
-                    f"no 'SCREEN*.exe' could be found in {search_in.as_posix()}. " + set_msg,
-                    stacklevel=2,
-                )
 
 
 # note that U10M becomes UHANE in non-regulatory mode
 SCREEN_OUT_COL_NAMES = 'DIST CONC STAB U10M USTK MIX_HT PLUME_HT SIGMA_Y SIGMA_Z DWASH'.split()
 SCREEN_OUT_COL_UNITS = ['m', 'μg/m$^3$', '', 'm/s', 'm/s', 'm', 'm', 'm', 'm', '']
 SCREEN_OUT_COL_UNITS_DICT = dict(zip(SCREEN_OUT_COL_NAMES, SCREEN_OUT_COL_UNITS))
-"""Dict of units for the outputs, e.g., `'DIST': 'm'`."""
+"""Dict of units for the outputs to be used in the plots. For example, `'DIST': 'm'`."""
 
 
 def read(
@@ -352,6 +303,7 @@ def run(
     HL=10.0,  # MINIMUM HORIZ. BUILDING DIMENSION (M)
     HW=20.0,  # MAXIMUM HORIZ. BUILDING DIMENSION (M)
     #
+    exe=_DEFAULT_EXE_PATH,
 ):
     """Create SCREEN3 input file, feed it to the executable, and load the result.
 
@@ -399,6 +351,19 @@ def run(
         Minimum horizontal building dimension (m).
     HW : float
         Maximum horizontal building dimension (m).
+    exe : path-like
+        Path to the executable to use, e.g., as a `str` or `pathlib.Path`.
+
+    Examples
+    --------
+    Change parameters.
+    ```python
+    screen3.run(TA=310, WS=2)
+    ```
+    Specify executable to use if yours isn't in the default place (`./src/SCREEN3.exe`).
+    ```python
+    screen3.run(exe="/path/to/executable")
+    ```
 
     Returns
     -------
@@ -415,20 +380,12 @@ def run(
 
     inputs = locals()  # collect inputs for saving in the df
 
-    _try_to_set_screen_exe_path()
-
     # TODO: should validate wind speed?
 
-    # Confirm exe path set
-    if _SCREEN_EXE_PATH is None or not isinstance(_SCREEN_EXE_PATH, Path):
-        raise ValueError("Before running the location of the executable must be set using `screen3.set_exe_path`.")
-
     # Check exe is file
-    if not _SCREEN_EXE_PATH.is_file():
-        raise ValueError(
-            "{fp!r} does not exist or is not a file."
-            " Use `screen3.set_exe_path` to set it."
-        )
+    exe = Path(exe)
+    if not exe.is_file():
+        raise ValueError(f"{exe.absolute()!r} does not exist or is not a file.")
 
     # Check for H changes without downwad
     H_defaults = (30.0, 10.0, 20.0)  # keep in sync with fn defaults
@@ -524,16 +481,16 @@ def run(
 
     t_utc_run = datetime.datetime.now()
 
-    exe = str(_SCREEN_EXE_PATH.absolute())
+    s_exe = str(exe.absolute())
     cwd = Path.cwd()
-    src_dir = _SCREEN_EXE_PATH.parent
+    src_dir = exe.parent
 
     # Move to src location so that the output file will be saved there
     os.chdir(src_dir)
 
     # Invoke executable
     subprocess.run(
-        args=[exe],
+        args=[s_exe],
         input=dat_text,
         universal_newlines=True,  # equivalent to `text=True`, but that was added in 3.7
         check=True,
@@ -714,8 +671,14 @@ def plot(
 
 
 def load_example(s, *, src=DEFAULT_SRC_DIR):
-    """Load one of the examples included with the screen3.zip download,
+    """Load one of the examples included with the `screen3.zip` download,
     such as `'EXAMPLE.OUT'` from SCREEN3 source directory `src`.
+
+    Examples
+    --------
+    ```python
+    screen3.load_example("EXAMPLE.OUT")
+    ```
     """
     valid_examples = [
         "EXAMPLE.OUT", "examplenew.out", "examplnrnew.out",

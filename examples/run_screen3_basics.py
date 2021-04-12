@@ -7,7 +7,6 @@ You can use `help({fn})` to see the help for each function, i.e., try running th
     help(screen3.run)
     help(screen3.plot)
     help(screen3.read)
-    help(screen3.set_exe_path)
 
 @author: zmoon
 """
