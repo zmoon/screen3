@@ -37,6 +37,7 @@ jobs:
           python -m pip install -U pip setuptools wheel
           python -m pip install .
           python -m pip install pytest
+          rm screen3.py  # want to ensure testing the installed version
 
       - name: Download SCREEN3 model
         run: |
@@ -47,9 +48,7 @@ jobs:
         run: |
           set -xe
           sudo apt install dos2unix
-          cd ./src
-          bash build.sh
-          cd ../
+          python -c "import screen3; screen3.build()"
 
       # https://github.com/actions/virtual-environments/issues/2524#issuecomment-768061046
       - name: Provide `gfortran` for macOS
@@ -66,14 +65,11 @@ jobs:
         run: |
           set -xe
           brew install dos2unix
-          cd ./src
-          bash build.sh
-          cd ../
+          python -c "import screen3; screen3.build()"
 
       - name: Check screen3 install status
         run: |
           python -c "import screen3; print(screen3._THIS_DIR)"
-          python -c "import screen3; print(screen3._SCREEN_EXE_PATH)"
 
       - name: Run tests (pytest)
         run: pytest -v
