@@ -19,7 +19,7 @@ pip install git+https://github.com/zmoon/screen3
 
 ### SCREEN3
 
-The `screen3` Python package does not include the SCREEN3 model itself.
+The `screen3` Python installation via `pip` does not include the SCREEN3 model itself.
 To download it (into `./src/`), you can use (within Python):
 ```python
 import screen3
