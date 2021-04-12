@@ -16,7 +16,6 @@ including that they are in uppercase.
 """
 # TODO: type annotations for the main user-facing fns?
 
-import datetime
 import os
 from pathlib import Path
 import platform
@@ -24,10 +23,7 @@ import subprocess
 import sys
 import warnings
 
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 
 __all__ = (
     "run",
@@ -38,6 +34,7 @@ __all__ = (
     "load_example",
     "set_exe_path",
     "SCREEN_OUT_COL_UNITS_DICT",
+    "DEFAULT_SRC_DIR",
 )
 
 
@@ -51,20 +48,21 @@ _THIS_DIR = Path(__file__).parent
 _SCREEN_EXE_PATH = None
 
 
-DEFAULT_SRC_DIR = Path.home() / ".local/screen3/src"
-"""Default location to place the SCREEN3 source code from EPA."""
+# DEFAULT_SRC_DIR = Path.home() / ".local/screen3/src"
+DEFAULT_SRC_DIR = "./src"
+"""Default directory in which to place the SCREEN3 source code from EPA."""
 
 
-def download(*, extract_to=DEFAULT_SRC_DIR):
-    """Download the SCREEN3 zip from EPA and extract.
+def download(*, src=DEFAULT_SRC_DIR):
+    """Download the SCREEN3 zip from EPA and extract to directory `src`.
 
-    If it fails, download it some other way.
+    If it fails, you can always download it yourself some other way.
 
     <https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip>
 
     Parameters
     ----------
-    extract_to : str, pathlib.Path
+    src : path-like
         Where to extract the files to.
     """
     import io
@@ -75,13 +73,13 @@ def download(*, extract_to=DEFAULT_SRC_DIR):
 
     url = "https://gaftp.epa.gov/Air/aqmg/SCRAM/models/screening/screen3/screen3.zip"
 
-    to = extract_to
-    to.mkdir(exist_ok=True, parents=True)
+    extract_to = Path(src)
+    extract_to.mkdir(exist_ok=True, parents=True)
     
     r = requests.get(url, verify=False)  # TODO: get it working without having to disable certificate verification
     with zipfile.ZipFile(io.BytesIO(r.content)) as z:
         for info in z.infolist():
-            with z.open(info) as zf, open(to / info.filename, "wb") as f:
+            with z.open(info) as zf, open(extract_to / info.filename, "wb") as f:
                 f.write(zf.read())
 
 
@@ -128,9 +126,16 @@ _DEPVAR_PATCH = """
 """.lstrip()
 
 
-def build(*, src_path=DEFAULT_SRC_DIR):
+def build(*, src=DEFAULT_SRC_DIR):
     """Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.
-    Requires `dos2unix` (for Linux/macOS), `patch`, and `gfortran` on PATH.
+    
+    .. note::
+       Requires `dos2unix` (for Linux/macOS), `patch`, and `gfortran` on PATH.
+
+    Parameters
+    ----------
+    src : path-like
+        Source directory, containing `SCREEN3A.FOR` etc., e.g., downloaded using `screen3.download`.
     """
     cwd = Path.cwd()
     bld = Path(src_path)
@@ -248,6 +253,10 @@ def read(
         * `'SCREEN_DAT'`: (str) the SCREEN3 DAT (copied inputs) file as a string
         * `'run_inputs'`: (dict) copy of the inputs to the the `run` function used to generated this dataset (if applicable)
     """
+    import datetime
+    
+    import pandas as pd
+
     if run_inputs is None:
         run_inputs = {}
 
@@ -402,6 +411,8 @@ def run(
     Upon running, it produces an output file called `SCREEN.OUT`.
     Both of these will be in the source directory, where the executable resides.
     """
+    import datetime
+
     inputs = locals()  # collect inputs for saving in the df
 
     _try_to_set_screen_exe_path()
@@ -542,6 +553,8 @@ def run(
 
 def _add_units(x_units, y_units, *, ax=None):
     """Add units and make room."""
+    import matplotlib.pyplot as plt
+
     if ax is None:
         ax = plt.gca()
     xl = ax.get_xlabel()
@@ -595,6 +608,10 @@ def plot(
         Passed on to the relevant pyplot plotting function,
         e.g., `ax.plot`.
     """
+    import matplotlib as mpl
+    import matplotlib.pyplot as plt
+    import pandas as pd
+
     if labels is None:
         labels = []
     if yvals is None:
@@ -696,9 +713,9 @@ def plot(
     return fig
 
 
-def load_example(s, *, from_=DEFAULT_SRC_DIR):
+def load_example(s, *, src=DEFAULT_SRC_DIR):
     """Load one of the examples included with the screen3.zip download,
-    such as `'EXAMPLE.OUT'`.
+    such as `'EXAMPLE.OUT'` from SCREEN3 source directory `src`.
     """
     valid_examples = [
         "EXAMPLE.OUT", "examplenew.out", "examplnrnew.out",
@@ -707,4 +724,4 @@ def load_example(s, *, from_=DEFAULT_SRC_DIR):
     if s not in valid_examples:
         raise ValueError(f"invalid example file name. Valid options are: {valid_examples}")
 
-    return read(Path(from_) / s)
+    return read(Path(src) / s)

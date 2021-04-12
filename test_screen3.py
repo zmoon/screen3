@@ -29,7 +29,7 @@ def test_run_src_dir_with_spaces():
     p.mkdir(exist_ok=True)
 
     with pytest.warns(urllib3.exceptions.InsecureRequestWarning):
-        screen3.download(extract_to=p)
+        screen3.download(src=p)
 
     exe0 = screen3._SCREEN_EXE_PATH
     screen3.set_exe_path(p / "SCREEN3.EXE")
