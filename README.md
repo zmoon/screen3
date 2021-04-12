@@ -17,10 +17,21 @@ To download it, you can use (within Python):
 import screen3
 screen3.download()
 ```
+or on the command line:
+```
+python -c "import screen3; screen3.download()"
+```
 
 On Windows, the above is sufficient to be able to use `screen3`.
 On non-Windows platforms, the model must be built from source.
-The [`src/build.sh`](src/build.sh) script can be used.
+The `screen3.build` function, which requires `dos2unix`, `patch`, and `gfortran`, can be used:
+```
+python -c "import screen3; screen3.build()"
+```
+or combined with the download:
+```
+python -c "import screen3; screen3.download(); screen3.build()"
+```
 
 ## Examples
 
