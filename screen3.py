@@ -143,7 +143,7 @@ def build(*, src=DEFAULT_SRC_DIR):
     """Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.
     
     .. note::
-       Requires `dos2unix` (for Linux/macOS), `patch`, and `gfortran` on PATH.
+       Requires `patch` and `gfortran` on PATH.
 
     Parameters
     ----------
