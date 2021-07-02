@@ -47,7 +47,6 @@ jobs:
         if: contains(matrix.os, 'ubuntu')
         run: |
           set -xe
-          sudo apt install dos2unix
           python -c "import screen3; screen3.build()"
 
       # https://github.com/actions/virtual-environments/issues/2524#issuecomment-768061046
@@ -64,7 +63,6 @@ jobs:
         if: contains(matrix.os, 'macos')
         run: |
           set -xe
-          brew install dos2unix
           python -c "import screen3; screen3.build()"
 
       - name: Check screen3 install status

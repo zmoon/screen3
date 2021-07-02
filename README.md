@@ -39,7 +39,7 @@ since EPA provides an executable compiled for Windows.
 #### Non-Windows
 
 On non-Windows platforms, the SCREEN3 model must be built from source.
-The `screen3.build` function, which requires `dos2unix`, `patch`, and `gfortran`, can be used:
+The `screen3.build` function, which requires `patch` and `gfortran`, can be used:
 ```
 python -c "import screen3; screen3.build()"
 ```
