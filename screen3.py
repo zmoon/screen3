@@ -131,6 +131,14 @@ _DEPVAR_PATCH = """
 """.lstrip()
 
 
+def _dos2unix(fp):
+    """Convert CRLF line endings (if any) to LF."""
+    with open(fp, "r") as f:
+        s = f.read()
+    with open(fp, "w", newline="\n") as f:
+        f.write(s)
+
+
 def build(*, src=DEFAULT_SRC_DIR):
     """Build the SCREEN3 executable by pre-processing the sources and compiling with GNU Fortran.
     
@@ -151,7 +159,9 @@ def build(*, src=DEFAULT_SRC_DIR):
 
     # Fix line endings
     if platform.system() != "Windows":
-        subprocess.run(['dos2unix'] + srcs)
+        # subprocess.run(['dos2unix'] + srcs)
+        for src in srcs:
+            _dos2unix(src)
 
     # Patch code
     with open("SCREEN3A.FOR.patch", "w") as f:
