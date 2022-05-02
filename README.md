@@ -15,7 +15,7 @@ pip install screen3
 
 Latest:
 ```
-pip install git+https://github.com/zmoon/screen3
+pip install https://github.com/zmoon/screen3/archive/main.zip
 ```
 
 ### SCREEN3
