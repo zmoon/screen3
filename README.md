@@ -3,6 +3,7 @@
 
 [![CI workflow status](https://github.com/zmoon/screen3/actions/workflows/ci.yml/badge.svg)](https://github.com/zmoon/screen3/actions/workflows/ci.yml)
 [![Version on PyPI](https://img.shields.io/pypi/v/screen3.svg)](https://pypi.org/project/screen3/)
+[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 
 [pdoc](https://pdoc.dev/) API documentation: <https://zmoon.github.io/screen3/screen3.html>
 
