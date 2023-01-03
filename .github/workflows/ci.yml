@@ -16,8 +16,6 @@ jobs:
         include:
           # Linux
           - os: ubuntu-latest
-            py: '3.6'
-          - os: ubuntu-latest
             py: '3.7'
           - os: ubuntu-latest
             py: '3.8'
@@ -33,10 +31,10 @@ jobs:
             py: '3.7'
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.py }}
 
