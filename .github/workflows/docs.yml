@@ -14,12 +14,12 @@ jobs:
 
     steps:
       - name: Check out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.8
+          python-version: '3.10'
 
       - name: Install package (with `docs` extras)
         run: |
@@ -31,7 +31,7 @@ jobs:
           pdoc -d numpy screen3 -o ./doc/_build
 
       - name: Push built docs to `gh-pages` branch
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: ./doc/_build
