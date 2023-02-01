@@ -60,10 +60,15 @@ jobs:
         if: contains(matrix.os, 'macos')
         run: |
           set -xe
-          sudo ln -s /usr/local/bin/gfortran-9 /usr/local/bin/gfortran 
+          which gfortran-${ver}
+          ls /usr/local/cellar/gcc@${ver}/
+          sudo ln -s /usr/local/bin/gfortran-${ver} /usr/local/bin/gfortran
           sudo mkdir /usr/local/gfortran
-          sudo ln -s /usr/local/Cellar/gcc@9/9.3.0_1/lib/gcc/9 /usr/local/gfortran/lib
+          sudo ln -s /usr/local/Cellar/gcc@${ver}/${full-ver}/lib/gcc/${ver} /usr/local/gfortran/lib
           gfortran --version
+        env:
+          ver: '11'
+          full-ver: '11.3.0'
 
       - name: Build model (macOS)
         if: contains(matrix.os, 'macos')
