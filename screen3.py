@@ -388,9 +388,9 @@ def run(
     Upon running, it produces an output file called `SCREEN.OUT`.
     Both of these will be in the source directory, where the executable resides.
     """
-    import datetime
-
     inputs = locals()  # collect inputs for saving in the df
+
+    import datetime
 
     # TODO: should validate wind speed?
 
