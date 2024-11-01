@@ -59,21 +59,17 @@ jobs:
           set -xe
           python -c "import screen3; screen3.build()"
 
-      # https://github.com/actions/virtual-environments/issues/2524#issuecomment-768061046
       - name: Provide `gfortran` for macOS
         if: contains(matrix.os, 'macos')
         run: |
           set -xe
-          which gfortran
+          which gfortran && exit 0
           which gfortran-${ver}
-          ls /usr/local/cellar/gcc@${ver}/
-          sudo ln -s /usr/local/bin/gfortran-${ver} /usr/local/bin/gfortran
-          sudo mkdir /usr/local/gfortran
-          sudo ln -s /usr/local/Cellar/gcc@${ver}/${full-ver}/lib/gcc/${ver} /usr/local/gfortran/lib
+          sudo ln -s /opt/homebrew/bin/gfortran-${ver} /opt/homebrew/bin/gfortran
           gfortran --version
         env:
-          ver: '11'
-          full-ver: '11.3.0'
+          ver: '12'
+          full-ver: '12.4.0'
 
       - name: Build model (macOS)
         if: contains(matrix.os, 'macos')
