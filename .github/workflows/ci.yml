@@ -64,6 +64,7 @@ jobs:
         if: contains(matrix.os, 'macos')
         run: |
           set -xe
+          which gfortran
           which gfortran-${ver}
           ls /usr/local/cellar/gcc@${ver}/
           sudo ln -s /usr/local/bin/gfortran-${ver} /usr/local/bin/gfortran
