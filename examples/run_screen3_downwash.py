@@ -48,7 +48,7 @@ for hb in HB_vals:
 
 HW_choice = 45.0
 
-iHW = np.argwhere(HW_vals == HW_choice)[0]
+iHW, = np.argwhere(HW_vals == HW_choice)[0]
 
 # Determine how many to use so we don't have too many in the plot
 n_desired = 10
@@ -77,7 +77,7 @@ fig.tight_layout()
 
 HB_choice = 35.0
 
-iHB = np.argwhere(HB_vals == HB_choice)[0]
+iHB, = np.argwhere(HB_vals == HB_choice)[0]
 
 # Determine how many to use so we don't have too many in the plot
 n_desired = 10
@@ -115,7 +115,7 @@ for c, X_choice in enumerate(X_choices):
 
     # ax = axs.flat[i]
 
-    iX = np.argwhere(dfs[0]['DIST'].values == X_choice)[0]
+    iX, = np.argwhere(dfs[0]['DIST'].values == X_choice)[0]
     
     data = np.empty((HB_vals.size, HW_vals.size))
     
