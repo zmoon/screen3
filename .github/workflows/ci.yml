@@ -68,8 +68,8 @@ jobs:
           sudo ln -s /opt/homebrew/bin/gfortran-${ver} /opt/homebrew/bin/gfortran
           gfortran --version
         env:
-          ver: '12'
-          full-ver: '12.4.0'
+          ver: '13'
+          full-ver: '13.4.0'
 
       - name: Build model (macOS)
         if: contains(matrix.os, 'macos')
